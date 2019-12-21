@@ -1,10 +1,16 @@
-package pl.connectis.electronicswebshop.login;
+package pl.connectis.electronicswebshop.web.login;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +47,14 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler());
+    }
+
+    private LogoutSuccessHandler logoutSuccessHandler() {
+        return null;
+    }
+
+    private AuthenticationFailureHandler authenticationFailureHandler() {
+        return null;
     }
 
     @Bean
