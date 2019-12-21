@@ -1,4 +1,4 @@
-package pl.connectis.electronicswebshop.login;
+package pl.connectis.electronicswebshop.web.login;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
