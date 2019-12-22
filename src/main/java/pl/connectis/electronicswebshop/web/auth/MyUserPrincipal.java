@@ -2,20 +2,23 @@ package pl.connectis.electronicswebshop.web.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.connectis.electronicswebshop.persistence.model.User;
 
 import java.util.Collection;
 
 public class MyUserPrincipal implements UserDetails {
 
     private User user;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    public MyUserPrincipal(User user){
+    public MyUserPrincipal(User user, Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

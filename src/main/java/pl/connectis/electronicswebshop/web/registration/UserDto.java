@@ -1,9 +1,8 @@
-package pl.connectis.electronicswebshop.web.login;
+package pl.connectis.electronicswebshop.web.registration;
 
 
-
-import pl.connectis.electronicswebshop.validation.PasswordMatches;
-import pl.connectis.electronicswebshop.validation.ValidEmail;
+import pl.connectis.electronicswebshop.web.validation.PasswordMatches;
+import pl.connectis.electronicswebshop.web.validation.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

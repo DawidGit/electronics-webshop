@@ -1,6 +1,6 @@
-package pl.connectis.electronicswebshop.validation;
+package pl.connectis.electronicswebshop.web.validation;
 
-import pl.connectis.electronicswebshop.web.login.UserDto;
+import pl.connectis.electronicswebshop.web.registration.UserDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

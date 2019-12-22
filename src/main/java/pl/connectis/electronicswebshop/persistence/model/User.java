@@ -1,4 +1,4 @@
-package pl.connectis.electronicswebshop.web.auth;
+package pl.connectis.electronicswebshop.persistence.model;
 
 import javax.persistence.*;
 import java.util.Collection;
