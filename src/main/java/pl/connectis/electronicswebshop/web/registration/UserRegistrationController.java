@@ -17,9 +17,9 @@ public class UserRegistrationController {
     private UserService userService;
 
 
-    @GetMapping("/register/{login}/{password}")
-    public User addUser(@PathVariable("login") String login,@PathVariable("password") String password){
-        return userService.addUser(login,password);
+    @GetMapping("/register/{username}/{password}")
+    public User addUser(@PathVariable("username") String username,@PathVariable("password") String password){
+        return userService.addUser(username,password);
     }
 
 

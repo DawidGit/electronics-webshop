@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,20 +21,16 @@ public class FakeUserRepository implements UserRepository {
     }
 
     @Override
-    public User findByLogin(String username) {
-        return getApplicationUsers().stream().filter(user -> username.equals(user.getLogin())).findFirst().get();
+    public User findByUsername(String username) {
+        return getApplicationUsers().stream().filter(user -> username.equals(user.getUsername())).findFirst().get();
     }
 
     private List<User> getApplicationUsers() {
                 User user1 = new User(
                         passwordEncoder.encode("password"),
                         "user",
-                        new ArrayList<>(),
-                        "test@test.com",
-                        true,
-                        true,
-                        true,
-                        true
+                        new HashSet<>(),
+                        "test@test.com"
                 );
         ArrayList<User> list = new ArrayList<>();
         list.add(user1);

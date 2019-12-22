@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository("postgres")
 public interface UserRepository extends CrudRepository<User,Long> {
 
-    User findByLogin(String login);
+    User findByUsername(String username);
 }

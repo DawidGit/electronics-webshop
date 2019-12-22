@@ -1,50 +1,55 @@
 package pl.connectis.electronicswebshop.web.auth;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
+
+
 
 @Entity
 @Table(name="users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private ArrayList<? extends GrantedAuthority> grantedAuthorities;
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
     private String password;
-    private String login;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
     private String email;
-    private boolean isAccountNonExpired;
-    private boolean isAccountNonLocked;
-    private boolean isCredentialsNonExpired;
-    private boolean isEnabled;
     private String firstName;
     private String lastName;
+//    private boolean isAccountNonExpired;
+//    private boolean isAccountNonLocked;
+//    private boolean isCredentialsNonExpired;
+//    private boolean isEnabled;
 
     public User(){}
 
-    public User(String password, String login,ArrayList<? extends GrantedAuthority> grantedAuthorities, String email, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-        this.grantedAuthorities = grantedAuthorities;
+    public User(String password, String username,Collection<Role> roles, String email) {
+        this.roles = roles;
         this.password = password;
-        this.login = login;
+        this.username = username;
         this.email = email;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
+//        this.grantedAuthorities = grantedAuthorities;
+//        this.isAccountNonExpired = isAccountNonExpired;
+//        this.isAccountNonLocked = isAccountNonLocked;
+//        this.isCredentialsNonExpired = isCredentialsNonExpired;
+//        this.isEnabled = isEnabled;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
     public String getFirstName() {
@@ -63,41 +68,63 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
     }
 
     public String getEmail() {
         return email;
     }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    //    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+//        return grantedAuthorities;
+
+//    }
+//    @Override
+//    public String getUsername() {
+//        return login;
+
+//    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return isAccountNonExpired;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return isAccountNonLocked;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return isCredentialsNonExpired;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return isEnabled;
+
+//    }
 }
