@@ -10,14 +10,9 @@ import javax.validation.constraints.NotNull;
 @PasswordMatches
 public class UserDto {
 
-
     @NotNull
     @NotEmpty
-    private int id;
-
-    @NotNull
-    @NotEmpty
-    private String login;
+    private String username;
 
     @NotNull
     @NotEmpty
@@ -37,20 +32,12 @@ public class UserDto {
     @NotEmpty
     private String email;
 
-    public int getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {

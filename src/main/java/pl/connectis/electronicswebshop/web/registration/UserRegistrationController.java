@@ -1,40 +1,40 @@
 package pl.connectis.electronicswebshop.web.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import pl.connectis.electronicswebshop.persistence.dao.RoleRepository;
-import pl.connectis.electronicswebshop.persistence.model.User;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.connectis.electronicswebshop.service.UserService;
 
-import java.util.Collections;
 
-@RestController
+@Controller
 public class UserRegistrationController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private RoleRepository roleRepository;
 
-    @GetMapping("/register/{username}/{password}")
-    public String addUser(@PathVariable("username") String username, @PathVariable("password") String password) {
+    @GetMapping("/registerCustomer")
+    public String registerCustomerForm(Model model) {
 
-        userService.addUser(new User(
-                passwordEncoder.encode(password),
-                username,
-                Collections.singletonList(roleRepository.findByName("ROLE_CUSTOMER")),
-                "test@test.com"));
+        UserDto user = new UserDto();
 
-        return "Zarejestrowano użytkownika: " + username;
+        model.addAttribute("user", user);
+
+        return "registerCustomer";
     }
 
+    @PostMapping("/registerCustomer")
+    @ResponseBody
+    public String registerCustomer(
+            @ModelAttribute("user") UserDto user
+    ) {
 
+        userService.addUser(user);
 
-
+        return "zarejestrowano użytkownika " + user.getUsername();
+    }
 
 }

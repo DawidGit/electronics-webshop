@@ -29,23 +29,23 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-//    private boolean isAccountNonExpired;
-//    private boolean isAccountNonLocked;
-//    private boolean isCredentialsNonExpired;
-//    private boolean isEnabled;
 
     public User(){}
 
-    public User(String password, String username,Collection<Role> roles, String email) {
+    public User(String password, String username, Collection<Role> roles, String email) {
         this.roles = roles;
         this.password = password;
         this.username = username;
         this.email = email;
-//        this.grantedAuthorities = grantedAuthorities;
-//        this.isAccountNonExpired = isAccountNonExpired;
-//        this.isAccountNonLocked = isAccountNonLocked;
-//        this.isCredentialsNonExpired = isCredentialsNonExpired;
-//        this.isEnabled = isEnabled;
+    }
+
+    public User(String password, String username, Collection<Role> roles, String email, String firstName, String lastName) {
+        this.roles = roles;
+        this.password = password;
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getUsername() {
