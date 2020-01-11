@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>allOrdersView</title>
+</head>
+<body>
+<div align="center">
+    <h1>Order List</h1>
+    <a href="/addorder">Create New Order</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Products</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${listOrders}">
+            <td th:text="${order.orderID}">Product ID</td>
+            <td th:text="${order.orderDate}">Order Date</td>
+            <td th:text="${order.product}">Products</td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
