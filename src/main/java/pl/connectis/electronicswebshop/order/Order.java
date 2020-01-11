@@ -1,11 +1,10 @@
 package pl.connectis.electronicswebshop.order;
 
-import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "orders")
@@ -14,39 +13,34 @@ public class Order {
     @Id
     @GeneratedValue
     @Column(name = "orderID")
-    public int orderID;
+    public Long orderID;
     @Column(name = "orderDate")
-    @DateTimeFormat(pattern="dd-MM-YYYY")
+    @DateTimeFormat(pattern = "dd-MM-YYYY")
     public final LocalDate orderDate = LocalDate.now();
-    @Column(name = "product")
-    public String product;
-    @Column (name = "quantity")
-    public int quantity;
 
-    public Order (){}
+    @OneToMany(mappedBy = "order")
+    public Collection<ProductQuantity> quantities;
 
-    public int getOrderID() {
+    public Order() {
+    }
+
+    public Long getOrderID() {
         return orderID;
+    }
+
+    public void setOrderID(Long orderID) {
+        this.orderID = orderID;
     }
 
     public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public String getProduct() {
-        return product;
+    public Collection<ProductQuantity> getQuantities() {
+        return quantities;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setQuantities(Collection<ProductQuantity> quantities) {
+        this.quantities = quantities;
     }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
 }

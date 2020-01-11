@@ -17,11 +17,12 @@
         <table border="0" cellpadding="10">
             <tr>
                 <td>Order ID:</td>
-                <td><input type="text" th:field="*{orderID}" /></td>
+                <td th:text="*{orderID}"></td>
             </tr>
             <tr>
                 <td>Order Date:</td>
-                <td><input type="text" th:field="*{orderDate}" /></td>
+                <td th:text="*{orderDate}"/>
+                </td>
 
                 <a href="/allorders">Check all orders</a>
 

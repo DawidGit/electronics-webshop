@@ -4,12 +4,8 @@ import pl.connectis.electronicswebshop.persistence.model.User;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.Collections;
 
 public class ProductDto {
-
-
 
     @NotNull
     @NotEmpty
@@ -17,8 +13,7 @@ public class ProductDto {
 
     @NotNull
     @NotEmpty
-    public int quantity;
-
+    public int stock;
 
     @NotNull
     @NotEmpty
@@ -34,12 +29,12 @@ public class ProductDto {
         this.productName = productName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getAddedBy() {

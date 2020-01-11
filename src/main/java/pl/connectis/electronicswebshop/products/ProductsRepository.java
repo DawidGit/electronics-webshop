@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 public interface ProductsRepository extends CrudRepository<Product,Long> {
 
 
-
 }

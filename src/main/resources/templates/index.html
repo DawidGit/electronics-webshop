@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
 <head>
+    <meta charset="UTF-8">
     <title>Starting Page</title>
 </head>
 <body>
@@ -9,5 +10,34 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+<p></p>
+<div align="center">
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Add To Order</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${listProducts}">
+            <td th:text="${product.productID}">Product ID</td>
+            <td th:text="${product.productName}">Order Date</td>
+            <td>
+                <form th:action="@{/}">
+                    <button type="submit" th:value="${product.productID}" th:name="productID">Add</button>
+                </form>
+            </td>
+            <td><input type="text" value="1" th:name="quantity"/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+<body>
+
 </body>
 </html>

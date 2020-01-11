@@ -1,47 +1,41 @@
 package pl.connectis.electronicswebshop.products;
 
-import pl.connectis.electronicswebshop.persistence.model.User;
+import pl.connectis.electronicswebshop.order.ProductQuantity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "Products")
 public class Product {
 
     @Id
     @GeneratedValue
     @Column(name = "productID")
-    public int productID;
+    public Long productID;
     @Column(name = "productName")
     public String productName;
-    @Column(name = "quantity")
-    public int quantity;
-    @Column (name = "addedBy")
-    private final String addedBy;
+    @Column(name = "stock")
+    public int stock;
+    @Column(name = "addedBy")
+    private String addedBy;
 
-
+    @OneToMany(mappedBy = "product")
+    private Collection<ProductQuantity> quantities;
 
     public Product() {
-        this.productName = productName;
-        User user = new User();
-        this.addedBy = user.getUsername();
     }
 
-    public Product(String productName, String username, String addedBy) {
+    public Product(String productName, String addedBy) {
+        this.productName = productName;
         this.addedBy = addedBy;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
-    public int getProductID() {
+    public Long getProductID() {
         return productID;
+    }
+
+    public void setProductID(Long productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
@@ -52,12 +46,28 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getAddedBy() {
-
-        return this.addedBy;
+    public int getStock() {
+        return stock;
     }
 
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
-    //skąd wziąć zalogowanego użytkoiwnika?
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
+    }
+
+    public Collection<ProductQuantity> getQuantities() {
+        return quantities;
+    }
+
+    public void setQuantities(Collection<ProductQuantity> quantities) {
+        this.quantities = quantities;
+    }
 
 }
