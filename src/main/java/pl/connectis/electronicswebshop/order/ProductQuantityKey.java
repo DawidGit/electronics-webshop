@@ -8,11 +8,18 @@ import java.util.Objects;
 @Embeddable
 public class ProductQuantityKey implements Serializable {
 
-    @Column(name = "orderID")
-    Long orderID;
+    @Column(name = "order_id")
+    private Long orderID;
+    @Column(name = "product_id")
+    private Long productID;
 
-    @Column(name = "productID")
-    Long productID;
+    private ProductQuantityKey() {
+    }
+
+    public ProductQuantityKey(Long orderID, Long productID) {
+        this.orderID = orderID;
+        this.productID = productID;
+    }
 
     public Long getOrderID() {
         return orderID;
@@ -35,8 +42,8 @@ public class ProductQuantityKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductQuantityKey that = (ProductQuantityKey) o;
-        return Objects.equals(orderID, that.orderID) &&
-                Objects.equals(productID, that.productID);
+        return orderID.equals(that.orderID) &&
+                productID.equals(that.productID);
     }
 
     @Override

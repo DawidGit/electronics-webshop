@@ -17,7 +17,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void addProduct(Product product) {
-
+        productsRepository.save(product);
     }
 
     @Override
@@ -27,6 +27,7 @@ public class ProductService implements IProductService {
         product.setProductName(productDto.productName);
         product.setStock(productDto.getStock());
 
+        productsRepository.save(product);
     }
 
     public Iterable<Product> getAllProducts() {

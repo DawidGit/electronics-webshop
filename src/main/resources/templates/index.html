@@ -17,23 +17,47 @@
         <tr>
             <th>Product ID</th>
             <th>Product Name</th>
-            <th>Add To Order</th>
+            <th></th>
             <th>Quantity</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="product : ${listProducts}">
-            <td th:text="${product.productID}">Product ID</td>
+            <td th:text="${product.id}">Product ID</td>
             <td th:text="${product.productName}">Order Date</td>
-            <td>
-                <form th:action="@{/}">
-                    <button type="submit" th:value="${product.productID}" th:name="productID">Add</button>
-                </form>
-            </td>
-            <td><input type="text" value="1" th:name="quantity"/></td>
+            <form th:action="@{/}" method="post">
+                <td>
+                    <button type="submit" th:value="${product.id}" th:name="id">Add</button>
+                </td>
+                <td><input type="text" value="1" th:name="quantity"/></td>
+            </form>
         </tr>
         </tbody>
     </table>
+    <p></p>
+    <!--    <table border="1" cellpadding="10">-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>Order ID</th>-->
+    <!--            <th>Product Name</th>-->
+    <!--            <th>Quantity</th>-->
+    <!--            <th>Add</th>-->
+    <!--            <th>Remove</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr th:each="product : ${listProductsByOrder}">-->
+    <!--            <td th:text="${order.id}">Product ID</td>-->
+    <!--            <td th:text="${order.productName}">Order Date</td>-->
+    <!--            <form th:action="@{/}" method="post">-->
+    <!--                <td>-->
+    <!--                    <button type="submit" th:value="${product.id}" th:name="id">Add</button>-->
+    <!--                </td>-->
+    <!--                <td><input type="text" value="1" th:name="quantity"/></td>-->
+    <!--            </form>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
 </div>
 </body>
 </html>

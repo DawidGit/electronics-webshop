@@ -21,7 +21,7 @@
         </thead>
         <tbody>
         <tr th:each="order : ${listOrders}">
-            <td th:text="${order.orderID}">Product ID</td>
+            <td th:text="${order.id}">Product ID</td>
             <td th:text="${order.orderDate}">Order Date</td>
             <td th:text="${order.product}">Products</td>
 

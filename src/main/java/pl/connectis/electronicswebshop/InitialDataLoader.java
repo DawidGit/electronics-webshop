@@ -13,6 +13,8 @@ import pl.connectis.electronicswebshop.persistence.dao.UserRepository;
 import pl.connectis.electronicswebshop.persistence.model.Privilege;
 import pl.connectis.electronicswebshop.persistence.model.Role;
 import pl.connectis.electronicswebshop.persistence.model.User;
+import pl.connectis.electronicswebshop.products.Product;
+import pl.connectis.electronicswebshop.products.ProductsRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +38,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @Override
     @Transactional
@@ -70,6 +75,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         user2.setEmail("test@test.com");
         user2.setRoles(Collections.singletonList(customerRole));
         userRepository.save(user2);
+
+        Product product = new Product();
+        product.setProductName("ProduktTestNazwa");
+        product.setStock(100);
+        product.setAddedBy("Admin");
+        productsRepository.save(product);
 
         alreadySetup = true;
     }

@@ -4,23 +4,22 @@ import pl.connectis.electronicswebshop.order.ProductQuantity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue
-    @Column(name = "productID")
-    public Long productID;
-    @Column(name = "productName")
-    public String productName;
-    @Column(name = "stock")
-    public int stock;
-    @Column(name = "addedBy")
+    private Long id;
+
+    private String productName;
+    private int stock;
     private String addedBy;
 
-    @OneToMany(mappedBy = "product")
-    private Collection<ProductQuantity> quantities;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private final Collection<ProductQuantity> orders = new HashSet<>();
 
     public Product() {
     }
@@ -30,12 +29,12 @@ public class Product {
         this.addedBy = addedBy;
     }
 
-    public Long getProductID() {
-        return productID;
+    public Long getId() {
+        return id;
     }
 
-    public void setProductID(Long productID) {
-        this.productID = productID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProductName() {
@@ -62,12 +61,20 @@ public class Product {
         this.addedBy = addedBy;
     }
 
-    public Collection<ProductQuantity> getQuantities() {
-        return quantities;
+    public Collection<ProductQuantity> getOrders() {
+        return orders;
     }
 
-    public void setQuantities(Collection<ProductQuantity> quantities) {
-        this.quantities = quantities;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

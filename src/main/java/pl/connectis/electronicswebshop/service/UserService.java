@@ -30,7 +30,6 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
-    @Override
     public void addUser(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());

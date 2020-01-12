@@ -79,7 +79,7 @@ public class OrderController {
 //           return "error";
 //        }
 //        orderRepository.save(order);
-//        model.addAttribute("id: ", order.getOrderID());
+//        model.addAttribute("id: ", order.getId());
 //        return "orderResult";
 //    }
 
