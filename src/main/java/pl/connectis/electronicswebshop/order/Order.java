@@ -95,4 +95,9 @@ public class Order {
     public int hashCode() {
         return Objects.hash(products, orderStatus, addedBy);
     }
+
+    @Override
+    public String toString() {
+        return this.orderStatus.toString();
+    }
 }

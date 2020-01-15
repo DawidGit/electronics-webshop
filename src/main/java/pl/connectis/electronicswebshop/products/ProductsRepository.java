@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductsRepository extends CrudRepository<Product,Long> {
 
+    Iterable<Product> findAllProductsByOrdersId(Long id);
 
 }

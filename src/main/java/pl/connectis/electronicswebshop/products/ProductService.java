@@ -1,11 +1,13 @@
-package pl.connectis.electronicswebshop.service;
+package pl.connectis.electronicswebshop.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.connectis.electronicswebshop.products.Product;
-import pl.connectis.electronicswebshop.products.ProductDto;
-import pl.connectis.electronicswebshop.products.ProductsRepository;
+import pl.connectis.electronicswebshop.order.Order;
+import pl.connectis.electronicswebshop.service.IProductService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -32,5 +34,15 @@ public class ProductService implements IProductService {
 
     public Iterable<Product> getAllProducts() {
         return productsRepository.findAll();
+    }
+
+    public List<Product> getAllProductsByOrderId(Order order) {
+        List<Product> selectedList = new ArrayList<>();
+        for (Product product : productsRepository.findAll()) {
+            if (product.getOrders().equals(order.getId()))
+                selectedList.add(product);
+        }
+        return selectedList;
+
     }
 }

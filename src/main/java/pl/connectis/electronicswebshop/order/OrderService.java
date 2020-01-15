@@ -1,12 +1,10 @@
-package pl.connectis.electronicswebshop.service;
+package pl.connectis.electronicswebshop.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.connectis.electronicswebshop.order.Order;
-import pl.connectis.electronicswebshop.order.OrderRepository;
-import pl.connectis.electronicswebshop.order.OrderStatus;
-import pl.connectis.electronicswebshop.order.ProductQuantity;
+import pl.connectis.electronicswebshop.products.ProductsRepository;
+import pl.connectis.electronicswebshop.service.IOrderService;
 
 @Service
 @Transactional
@@ -14,6 +12,8 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @Override
     public Order addOrder() {
@@ -54,6 +54,17 @@ public class OrderService implements IOrderService {
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
+
+    //   public List<Product> getAllPurchases (Order order) {
+
+//        List<Product> selectedList = new ArrayList<>();
+//
+//        for (Product product : productsRepository.findAll()) {
+////            if (purchase.getOrderID().equals(order.getId()))
+//            selectedList.add(product); }
+//        return selectedList;
+//    }
 
 
 }

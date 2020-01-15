@@ -6,10 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.electronicswebshop.order.Order;
+import pl.connectis.electronicswebshop.order.OrderService;
 import pl.connectis.electronicswebshop.order.OrderStatus;
 import pl.connectis.electronicswebshop.order.ProductQuantity;
-import pl.connectis.electronicswebshop.service.OrderService;
-import pl.connectis.electronicswebshop.service.ProductService;
 
 import java.security.Principal;
 

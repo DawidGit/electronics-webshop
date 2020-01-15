@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.connectis.electronicswebshop.products.Product;
-import pl.connectis.electronicswebshop.service.OrderService;
+import pl.connectis.electronicswebshop.products.ProductService;
+import pl.connectis.electronicswebshop.products.ProductsRepository;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -16,6 +19,15 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ProductsRepository productsRepository;
 
 //    public OrderController(OrderRepository orderRepository) {
 //        this.orderRepository = orderRepository;
@@ -30,6 +42,7 @@ public class OrderController {
 //        return orderRepository.save(new Order());
 //    }
 
+
     @GetMapping(value = "/allorders")
     public String viewAllOrders(Model model){
         Iterable<Order> listOrders = orderService.getAllOrders();
@@ -41,13 +54,36 @@ public class OrderController {
     @GetMapping("/addorder")
 
     public String addedOrder(Model model) {
-        model.addAttribute("order",orderService.addOrder());
+        model.addAttribute("order", orderService.addOrder());
         return "addedOrderView";
     }
 
     @GetMapping("order/{orderID}/allproducts")
-    public List<Product> getAllProductsFromOrder (int orderID){
+    public List<Product> getAllProductsFromOrder(int orderID) {
         return null;
+    }
+
+
+    @GetMapping(value = "/basket")
+    public String showBasket(Model model, Principal principal, Order order, OrderStatus orderStatus) {
+        Order foundedOrder = orderRepository.findByAddedByAndOrderStatus(principal.getName(), OrderStatus.OPEN);
+
+
+        if (foundedOrder != null) {
+            List<Product> productsList = new ArrayList<>();
+
+            for (ProductQuantity product : foundedOrder.getProducts()) {
+                Product foundedProduct = product.getProduct();
+                productsList.add(foundedProduct);
+            }
+
+            model.addAttribute("productsList", productsList);
+            //model.addAttribute("productsList", productsRepository.findAllProductsByOrdersId(order.getId()));
+            model.addAttribute("order", foundedOrder);
+        } else {
+            model.addAttribute("order", order);
+        }
+        return "basketView";
     }
 
 }

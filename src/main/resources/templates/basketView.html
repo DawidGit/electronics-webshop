@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order View</title>
+</head>
+<body>
+<div align="center">
+
+    <form action="#" th:action="@{/basket}" th:object="${order}"
+          method="get">
+
+        <table border="1" cellpadding="10">
+
+            <td>Your order</td>
+
+            <td>Order ID:</td>
+            <td th:text="${order.id}"></td>
+
+            <td>Status:</td>
+            <td th:text="${order.orderStatus}"></td>
+
+            <tbody>
+            <td>Products:</td>
+            <tr th:each="product: ${productsList}">
+                <td th:text="${product.Id}">Product ID</td>
+                <td th:text="${product.productName}">Product name</td>
+                -->
+            </tr>
+
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>
