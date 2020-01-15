@@ -50,37 +50,54 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             return;
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+        Privilege userManagmentPrivilege = createPrivilegeIfNotFound("USER_MANAGEMENT_PRIVILEGE");
 
         List<Privilege> adminPrivileges = Arrays.asList(
+                readPrivilege, writePrivilege, userManagmentPrivilege);
+        List<Privilege> employeePrivileges = Arrays.asList(
                 readPrivilege, writePrivilege);
-        createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-        createRoleIfNotFound("ROLE_CUSTOMER", Collections.singletonList(readPrivilege));
+        Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+        Role customerRole = createRoleIfNotFound("ROLE_CUSTOMER", Collections.singletonList(readPrivilege));
+        Role employeeRole = createRoleIfNotFound("ROLE_EMPLOYEE", employeePrivileges);
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        User user = new User();
-        user.setUsername("Admin");
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setPassword(passwordEncoder.encode("admin"));
-        user.setEmail("test@test.com");
-        user.setRoles(Collections.singletonList(adminRole));
-        userRepository.save(user);
+        User admin = new User();
+        admin.setUsername("Admin");
+        admin.setFirstName("Elon");
+        admin.setLastName("Musk");
+        admin.setPassword(passwordEncoder.encode("admin"));
+        admin.setEmail("e.musk@tesla.com");
+        admin.setRoles(Collections.singletonList(adminRole));
+        userRepository.save(admin);
 
-        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER");
-        User user2 = new User();
-        user2.setUsername("Dummy");
-        user2.setFirstName("Test");
-        user2.setLastName("Test");
-        user2.setPassword(passwordEncoder.encode("test"));
-        user2.setEmail("test@test.com");
-        user2.setRoles(Collections.singletonList(customerRole));
-        userRepository.save(user2);
+        User customer = new User();
+        customer.setUsername("Customer");
+        customer.setFirstName("Keanu");
+        customer.setLastName("Reeves");
+        customer.setPassword(passwordEncoder.encode("customer"));
+        customer.setEmail("mightybeaver2362@gmail.com.com");
+        customer.setRoles(Collections.singletonList(customerRole));
+        userRepository.save(customer);
+
+        User employee = new User();
+        employee.setUsername("Employee");
+        employee.setFirstName("Adam");
+        employee.setLastName("Smith");
+        employee.setPassword(passwordEncoder.encode("employee"));
+        employee.setEmail("a.smith@connectis.pl");
+        employee.setRoles(Collections.singletonList(employeeRole));
+        userRepository.save(employee);
 
         Product product = new Product();
-        product.setProductName("ProduktTestNazwa");
+        product.setProductName("ProduktTest1Nazwa");
         product.setStock(100);
         product.setAddedBy("Admin");
         productsRepository.save(product);
+
+        Product product2 = new Product();
+        product2.setProductName("ProduktTest4Nazwa");
+        product2.setStock(50);
+        product2.setAddedBy("Employee");
+        productsRepository.save(product2);
 
         alreadySetup = true;
     }

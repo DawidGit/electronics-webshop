@@ -65,21 +65,22 @@ public class OrderController {
 
 
     @GetMapping(value = "/basket")
-    public String showBasket(Model model, Principal principal, Order order, OrderStatus orderStatus) {
-        Order foundedOrder = orderRepository.findByAddedByAndOrderStatus(principal.getName(), OrderStatus.OPEN);
+    public String showBasket(Model model, Principal principal, Order order) {
+        String username = ((principal == null) ? "Anonymous" : principal.getName());
+        Order foundOrder = orderService.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
 
 
-        if (foundedOrder != null) {
+        if (foundOrder != null) {
             List<Product> productsList = new ArrayList<>();
 
-            for (ProductQuantity product : foundedOrder.getProducts()) {
+            for (ProductQuantity product : foundOrder.getProducts()) {
                 Product foundedProduct = product.getProduct();
                 productsList.add(foundedProduct);
             }
 
             model.addAttribute("productsList", productsList);
             //model.addAttribute("productsList", productsRepository.findAllProductsByOrdersId(order.getId()));
-            model.addAttribute("order", foundedOrder);
+            model.addAttribute("order", foundOrder);
         } else {
             model.addAttribute("order", order);
         }

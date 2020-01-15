@@ -3,6 +3,7 @@ package pl.connectis.electronicswebshop.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.connectis.electronicswebshop.products.Product;
 import pl.connectis.electronicswebshop.products.ProductsRepository;
 import pl.connectis.electronicswebshop.service.IOrderService;
 
@@ -32,7 +33,6 @@ public class OrderService implements IOrderService {
         return order;
     }
 
-
     @Override
     public Order findById(int id) {
         return orderRepository.findById(id);
@@ -53,6 +53,30 @@ public class OrderService implements IOrderService {
 
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public boolean addProductToOrder(Product product, int quantity, String username) {
+        ProductQuantity productQuantity = null;
+        Order lastOpenOrder = orderRepository.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
+        if (lastOpenOrder == null) {
+            lastOpenOrder = addOrder(username);
+        }
+        for (ProductQuantity products : findAllProductsByOrder(lastOpenOrder)) {
+            if (products.getProduct().equals(product)) {
+                productQuantity = products;
+                productQuantity.setQuantity(productQuantity.getQuantity() + quantity);
+            }
+        }
+        if (productQuantity == null) {
+            productQuantity = new ProductQuantity(lastOpenOrder, product, quantity);
+            lastOpenOrder.getProducts().add(productQuantity);
+        }
+        saveOrder(lastOpenOrder);
+        return true;
+    }
+
+    public Order findByAddedByAndOrderStatus(String username, OrderStatus orderStatus) {
+        return orderRepository.findByAddedByAndOrderStatus(username, orderStatus);
     }
 
 

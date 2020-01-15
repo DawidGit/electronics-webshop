@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.connectis.electronicswebshop.order.Order;
 import pl.connectis.electronicswebshop.order.OrderService;
-import pl.connectis.electronicswebshop.order.OrderStatus;
-import pl.connectis.electronicswebshop.order.ProductQuantity;
 
 import java.security.Principal;
 
@@ -48,13 +45,11 @@ public class ProductsController {
             Principal principal
     ) {
         if (quantity < 0) return "error";
-
-
-        Product product = productsRepository.findById(productID).get();
+        Product product = productService.getProductByID(productID);
+        if (product == null) return "error";
         if (product.getStock() < quantity) return "error";
-        username = ((principal != null) ? principal.getName() : "Anonymous");
-
-        if (!validateProduct(product, quantity, username)) return "error";
+        username = ((principal == null) ? "Anonymous" : principal.getName());
+        if (!orderService.addProductToOrder(product, quantity, username)) return "error";
 
         Iterable<Product> listProducts = productService.getAllProducts();
         model.addAttribute("listProducts", listProducts);
@@ -67,33 +62,6 @@ public class ProductsController {
         Product prod = new Product(productName, principal.getName());
         productService.addProduct(prod);
         return prod;
-    }
-
-    private boolean validateProduct(Product product, int quantity, String username) {
-
-        ProductQuantity productQuantity = null;
-        Iterable<Order> userOrders = orderService.findAllByAddedBy(username);
-        Order lastOpenOrder = null;
-        for (Order userOrder : userOrders) {
-            if (userOrder.getOrderStatus() == OrderStatus.OPEN) {
-                lastOpenOrder = userOrder;
-                for (ProductQuantity products : orderService.findAllProductsByOrder(lastOpenOrder)) {
-                    if (products.getProduct().equals(product)) {
-                        productQuantity = products;
-                        productQuantity.setQuantity(productQuantity.getQuantity() + quantity);
-                    }
-                }
-            }
-        }
-        if (lastOpenOrder == null) {
-            lastOpenOrder = orderService.addOrder(username);
-        }
-        if (productQuantity == null) {
-            productQuantity = new ProductQuantity(lastOpenOrder, product, quantity);
-            lastOpenOrder.getProducts().add(productQuantity);
-        }
-        orderService.saveOrder(lastOpenOrder);
-        return true;
     }
 
 }

@@ -32,6 +32,12 @@ public class ProductService implements IProductService {
         productsRepository.save(product);
     }
 
+    public Product getProductByID(Long productID) {
+        if (productsRepository.findById(productID).isPresent())
+            return productsRepository.findById(productID).get();
+        else return null;
+    }
+
     public Iterable<Product> getAllProducts() {
         return productsRepository.findAll();
     }
@@ -45,4 +51,6 @@ public class ProductService implements IProductService {
         return selectedList;
 
     }
+
+
 }
