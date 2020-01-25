@@ -8,6 +8,8 @@ import pl.connectis.electronicswebshop.products.ProductsRepository;
 import pl.connectis.electronicswebshop.service.IOrderService;
 
 import java.security.Principal;
+import java.util.Iterator;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -15,6 +17,8 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderLineRepository orderLineRepository;
     @Autowired
     private ProductsRepository productsRepository;
 
@@ -49,7 +53,7 @@ public class OrderService implements IOrderService {
         return orderRepository.save(order);
     }
 
-    public Iterable<ProductQuantity> findAllProductsByOrder(Order lastOpenOrder) {
+    public Iterable<OrderLine> findAllProductsByOrder(Order lastOpenOrder) {
 
         return orderRepository.findById(lastOpenOrder.getId()).get().getProducts();
     }
@@ -66,23 +70,44 @@ public class OrderService implements IOrderService {
 
 
     public boolean addProductToOrder(Product product, int quantity, String username) {
-        ProductQuantity productQuantity = null;
+        OrderLine orderLine = null;
         Order lastOpenOrder = orderRepository.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
         if (lastOpenOrder == null) {
             lastOpenOrder = addOrder(username);
         }
-        for (ProductQuantity products : findAllProductsByOrder(lastOpenOrder)) {
+        for (OrderLine products : findAllProductsByOrder(lastOpenOrder)) {
             if (products.getProduct().equals(product)) {
-                productQuantity = products;
-                productQuantity.setQuantity(productQuantity.getQuantity() + quantity);
+                orderLine = products;
+                orderLine.setQuantity(orderLine.getQuantity() + quantity);
             }
         }
-        if (productQuantity == null) {
-            productQuantity = new ProductQuantity(lastOpenOrder, product, quantity);
-            lastOpenOrder.getProducts().add(productQuantity);
+        if (orderLine == null) {
+            orderLine = new OrderLine(lastOpenOrder, product, quantity);
+            lastOpenOrder.getProducts().add(orderLine);
         }
         saveOrder(lastOpenOrder);
         return true;
+    }
+
+    public Order removeLine(long orderId, Product product, int quantity) {
+        Optional<Order> foundOrder = orderRepository.findById(orderId);
+        if (foundOrder.isPresent()) {
+            for (Iterator<OrderLine> iterator = foundOrder.get().getProducts().iterator();
+                 iterator.hasNext(); ) {
+
+                OrderLine orderLine = iterator.next();
+                if (orderLine.getProduct().equals(product)) {
+                    if (orderLine.getQuantity() - quantity <= 0) {
+                        iterator.remove();
+                        orderLineRepository.delete(orderLine);
+                    } else {
+                        orderLine.setQuantity(orderLine.getQuantity() - quantity);
+                    }
+                }
+            }
+            return foundOrder.get();
+        }
+        return null;
     }
 
     public Order findByAddedByAndOrderStatus(String username, OrderStatus orderStatus) {

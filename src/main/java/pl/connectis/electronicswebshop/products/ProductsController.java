@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.electronicswebshop.order.Order;
 import pl.connectis.electronicswebshop.order.OrderService;
+import pl.connectis.electronicswebshop.order.OrderStatus;
 
 import java.security.Principal;
 
@@ -28,11 +30,20 @@ public class ProductsController {
 
     //Czynności po stronie Pracownika
 
-    @GetMapping({"/", "/home"})
-    public String viewAllProducts(Model model) {
+    private String indexView(Model model, String username) {
         Iterable<Product> listProducts = productService.getAllProducts();
+        Order foundOrder = orderService.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
+        int basketCount = ((foundOrder == null) ? 0 : foundOrder.getProducts().size());
         model.addAttribute("listProducts", listProducts);
+        model.addAttribute("basketCount", basketCount);
+
         return "index";
+    }
+
+    @GetMapping({"/", "/home"})
+    public String viewAllProducts(Model model, Principal principal) {
+        String username = ((principal == null) ? "Anonymous" : principal.getName());
+        return indexView(model, username);
     }
 
 
@@ -40,7 +51,6 @@ public class ProductsController {
     public String addToOrder(
             @RequestParam(value = "quantity", required = false) int quantity,
             @RequestParam(value = "id", required = false) Long productID,
-            String username,
             Model model,
             Principal principal
     ) {
@@ -48,12 +58,10 @@ public class ProductsController {
         Product product = productService.getProductByID(productID);
         if (product == null) return "error";
         if (product.getStock() < quantity) return "error";
-        username = ((principal == null) ? "Anonymous" : principal.getName());
+        String username = ((principal == null) ? "Anonymous" : principal.getName());
         if (!orderService.addProductToOrder(product, quantity, username)) return "error";
 
-        Iterable<Product> listProducts = productService.getAllProducts();
-        model.addAttribute("listProducts", listProducts);
-        return "index";
+        return indexView(model, username);
     }
 
 

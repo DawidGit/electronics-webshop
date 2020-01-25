@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class ProductQuantity {
+public class OrderLine {
 
     @EmbeddedId
-    private ProductQuantityKey id;
+    private OrderLineKey id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("orderid")
@@ -23,21 +23,21 @@ public class ProductQuantity {
 
     private int quantity;
 
-    ProductQuantity() {
+    OrderLine() {
     }
 
-    public ProductQuantity(Order order, Product product, int quantity) {
+    public OrderLine(Order order, Product product, int quantity) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
-        this.id = new ProductQuantityKey(order.getId(), product.getId());
+        this.id = new OrderLineKey(order.getId(), product.getId());
     }
 
-    public ProductQuantityKey getId() {
+    public OrderLineKey getId() {
         return id;
     }
 
-    public void setId(ProductQuantityKey id) {
+    public void setId(OrderLineKey id) {
         this.id = id;
     }
 
@@ -69,7 +69,7 @@ public class ProductQuantity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductQuantity that = (ProductQuantity) o;
+        OrderLine that = (OrderLine) o;
         return Objects.equals(order, that.order) &&
                 Objects.equals(product, that.product) &&
                 quantity == that.quantity;

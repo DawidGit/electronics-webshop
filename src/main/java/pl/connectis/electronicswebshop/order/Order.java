@@ -1,13 +1,11 @@
 package pl.connectis.electronicswebshop.order;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.connectis.electronicswebshop.products.Product;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +21,7 @@ public class Order {
     private final LocalDate orderDate = LocalDate.now();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    public final Collection<ProductQuantity> products = new HashSet<>();
+    public final Collection<OrderLine> products = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -45,7 +43,7 @@ public class Order {
         return orderDate;
     }
 
-    public Collection<ProductQuantity> getProducts() {
+    public Collection<OrderLine> getProducts() {
         return products;
     }
 
@@ -63,22 +61,6 @@ public class Order {
 
     public void setAddedBy(String addedBy) {
         this.addedBy = addedBy;
-    }
-
-    public void removeProduct(Product product, int quantity) {
-        for (Iterator<ProductQuantity> iterator = products.iterator();
-             iterator.hasNext(); ) {
-            ProductQuantity productQuantity = iterator.next();
-
-            if (productQuantity.getOrder().equals(this) &&
-                    productQuantity.getProduct().equals(product)) {
-                iterator.remove();
-                productQuantity.getProduct().getOrders().remove(productQuantity);
-                productQuantity.setProduct(null);
-                productQuantity.setOrder(null);
-                productQuantity.setQuantity(productQuantity.getQuantity() - quantity);
-            }
-        }
     }
 
     @Override

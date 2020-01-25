@@ -1,6 +1,6 @@
 package pl.connectis.electronicswebshop.products;
 
-import pl.connectis.electronicswebshop.order.ProductQuantity;
+import pl.connectis.electronicswebshop.order.OrderLine;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class Product {
     private String addedBy;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private final Collection<ProductQuantity> orders = new HashSet<>();
+    private final Collection<OrderLine> orders = new HashSet<>();
 
     public Product() {
     }
@@ -61,7 +61,7 @@ public class Product {
         this.addedBy = addedBy;
     }
 
-    public Collection<ProductQuantity> getOrders() {
+    public Collection<OrderLine> getOrders() {
         return orders;
     }
 

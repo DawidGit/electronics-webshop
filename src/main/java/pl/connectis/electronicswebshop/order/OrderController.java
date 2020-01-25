@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop.order;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@Slf4j
 public class OrderController {
 
     //private final OrderRepository orderRepository;
@@ -94,7 +92,7 @@ public class OrderController {
         return "basketView";
     }
 
-    @PostMapping("/deleteArticle")
+    @PostMapping("/basket")
     public String deleteArticleFromOrder(
             @RequestParam(value = "quantity", required = false) int quantity,
             @RequestParam(value = "id", required = false) long productID, OrderStatus orderStatus,
@@ -130,6 +128,12 @@ public class OrderController {
         }
 
         return "index";
+            @RequestParam(value = "productId", required = false) Long productID,
+            @RequestParam(value = "orderId") Long orderID, OrderStatus orderStatus, Principal principal, Model model
+    ) {
+        Order order = orderService.removeLine(orderID, productService.getProductByID(productID), quantity);
+        return showBasket(model, principal, order);
+    }
 
     }
 }

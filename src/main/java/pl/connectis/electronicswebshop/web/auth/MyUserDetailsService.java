@@ -51,6 +51,7 @@ public class MyUserDetailsService implements UserDetailsService {
         List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
             collection.addAll(role.getPrivileges());
+            privileges.add(role.getName());
         }
         for (Privilege item : collection) {
             privileges.add(item.getName());

@@ -5,9 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.order.Order;
+import pl.connectis.electronicswebshop.order.OrderLine;
 import pl.connectis.electronicswebshop.order.OrderService;
 import pl.connectis.electronicswebshop.order.OrderStatus;
-import pl.connectis.electronicswebshop.order.ProductQuantity;
 import pl.connectis.electronicswebshop.products.Product;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class CommandRunner implements CommandLineRunner {
 
         if (foundOrder != null) {
             List<Product> productsList = new ArrayList<>();
-            Collection<ProductQuantity> products = foundOrder.getProducts();
+            Collection<OrderLine> products = foundOrder.getProducts();
 
 
             System.out.println(products);

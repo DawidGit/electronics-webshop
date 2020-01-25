@@ -22,24 +22,25 @@
             <td th:text="${order.orderStatus}"></td>
         </table>
 
-    <table align="center" border="1" cellpadding="10">
-        <td>Products:</td>
-    </table>
+    <div align="center">
+        <h1>Products:</h1>
+    </div>
 
 
     <table align="center" border="1" cellpadding="10">
 
         <tbody>
         <tr th:each="product: ${productsList}">
-            <td th:type="long" th:text="${product.product.id}">Product ID</td>
+            <td th:text="${product.product.id}">Product ID</td>
             <td th:text="${product.product.productName}">Product name</td>
             <td th:text="${product.quantity}">Product name</td>
 
-            <form th:action="@{/deleteArticle}" method="post">
+            <form th:action="@{/basket}" method="post">
 
-                <td><input type="number" th:name="quantity"/></td>
+                <td><input type="number" name="quantity"/></td>
                 <td>
-                    <button type="submit" th:type="long" th:value="${product.product.id}" th:name="id">Delete</button>
+                    <input type="hidden" th:value="${order.id}" name="orderId"/>
+                    <button type="submit" th:value="${product.product.id}" name="productId">Delete</button>
                 </td>
             </form>
         </tr>
