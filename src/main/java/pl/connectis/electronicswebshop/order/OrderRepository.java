@@ -22,6 +22,8 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     Order findByOrderStatus(OrderStatus orderStatus);
 
+    Order deleteProductById(ProductQuantity productQuantity);
+
 
 //Order removeOrder(int orderID);
 

@@ -56,6 +56,7 @@ public class ProductsController {
         return "index";
     }
 
+
     @GetMapping("/addProduct/{productName}")
     @ResponseBody
     public Product addProduct(@PathVariable String productName, Principal principal) {

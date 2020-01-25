@@ -23,7 +23,7 @@ public class ProductQuantity {
 
     private int quantity;
 
-    private ProductQuantity() {
+    ProductQuantity() {
     }
 
     public ProductQuantity(Order order, Product product, int quantity) {

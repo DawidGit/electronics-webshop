@@ -7,6 +7,8 @@ import pl.connectis.electronicswebshop.products.Product;
 import pl.connectis.electronicswebshop.products.ProductsRepository;
 import pl.connectis.electronicswebshop.service.IOrderService;
 
+import java.security.Principal;
+
 @Service
 @Transactional
 public class OrderService implements IOrderService {
@@ -48,12 +50,20 @@ public class OrderService implements IOrderService {
     }
 
     public Iterable<ProductQuantity> findAllProductsByOrder(Order lastOpenOrder) {
+
         return orderRepository.findById(lastOpenOrder.getId()).get().getProducts();
+    }
+
+    public void deleteOrder(Principal principal, OrderStatus orderStatus) {
+        String username = ((principal == null) ? "Anonymous" : principal.getName());
+        Order order = orderRepository.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
+        orderRepository.delete(order);
     }
 
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
 
     public boolean addProductToOrder(Product product, int quantity, String username) {
         ProductQuantity productQuantity = null;

@@ -7,30 +7,47 @@
 <body>
 <div align="center">
 
-    <form action="#" th:action="@{/basket}" th:object="${order}"
-          method="get">
 
-        <table border="1" cellpadding="10">
+        <table align="center" border="1" cellpadding="10">
 
             <td>Your order</td>
 
             <td>Order ID:</td>
             <td th:text="${order.id}"></td>
 
+            <td>Created By:</td>
+            <td th:text="${order.addedBy}"></td>
+
             <td>Status:</td>
             <td th:text="${order.orderStatus}"></td>
-
-            <tbody>
-            <td>Products:</td>
-            <tr th:each="product: ${productsList}">
-                <td th:text="${product.Id}">Product ID</td>
-                <td th:text="${product.productName}">Product name</td>
-                -->
-            </tr>
-
-            </tbody>
         </table>
-    </form>
+
+    <table align="center" border="1" cellpadding="10">
+        <td>Products:</td>
+    </table>
+
+
+    <table align="center" border="1" cellpadding="10">
+
+        <tbody>
+        <tr th:each="product: ${productsList}">
+            <td th:text="${product.product.id}">Product ID</td>
+            <td th:text="${product.product.productName}">Product name</td>
+            <td th:text="${product.quantity}">Product name</td>
+
+            <form th:action="@{/deleteArticle}" method="post">
+
+                <td><input type="number" th:name="quantity"/></td>
+                <td>
+                    <button type="submit" th:value="${product.product.id}" value="id">Delete</button>
+                </td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/deleteOrder" type="button">Delete Order</a>
+
 </div>
 </body>
 </html>

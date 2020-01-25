@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.connectis.electronicswebshop.products.Product;
 import pl.connectis.electronicswebshop.products.ProductService;
 import pl.connectis.electronicswebshop.products.ProductsRepository;
@@ -44,10 +46,17 @@ public class OrderController {
 
 
     @GetMapping(value = "/allorders")
-    public String viewAllOrders(Model model){
+    public String viewAllOrders(Model model) {
         Iterable<Order> listOrders = orderService.getAllOrders();
         model.addAttribute("listOrders", listOrders);
         return "allOrdersView";
+    }
+
+
+    @GetMapping(value = "/deleteOrder")
+    public String viewDeleteConfirmation(Model model, Order order, Principal principal, OrderStatus orderStatus) {
+        orderService.deleteOrder(principal, orderStatus);
+        return "deleteOrderConfirmationView";
     }
 
 
@@ -71,20 +80,41 @@ public class OrderController {
 
 
         if (foundOrder != null) {
-            List<Product> productsList = new ArrayList<>();
 
-            for (ProductQuantity product : foundOrder.getProducts()) {
-                Product foundedProduct = product.getProduct();
-                productsList.add(foundedProduct);
-            }
-
+            List<ProductQuantity> productsList = new ArrayList<>(foundOrder.getProducts());
             model.addAttribute("productsList", productsList);
-            //model.addAttribute("productsList", productsRepository.findAllProductsByOrdersId(order.getId()));
             model.addAttribute("order", foundOrder);
         } else {
             model.addAttribute("order", order);
         }
+
+
         return "basketView";
+    }
+
+    @PostMapping("/deleteArticle")
+    public String deleteArticleFromOrder(
+            @RequestParam(value = "quantity", required = false) int quantity,
+            @RequestParam(value = "id", required = false) Long productID,
+            Long orderID, OrderStatus orderStatus, Principal principal
+    ) {
+
+        Order currentOrder = orderService.findByAddedByAndOrderStatus(principal.getName(), OrderStatus.OPEN);
+        List<ProductQuantity> productsList = new ArrayList<>(currentOrder.getProducts());
+
+        List<ProductQuantity> currProductsList = new ArrayList<>();
+
+        for (ProductQuantity product : currentOrder.getProducts()
+        ) {
+
+            if (product.getProduct().getId().equals(productID)) {
+
+
+            }
+
+        }
+
+        return "index";
     }
 
 }
