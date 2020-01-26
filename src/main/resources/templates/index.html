@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
 <head>
     <meta charset="UTF-8">
     <title>Starting Page</title>
@@ -15,10 +18,10 @@
 <h3 th:inline="text" th:text="'Hello ' + (${#httpServletRequest.remoteUser} ?: 'anon') + '!'"></h3>
 <div align="center">
     <h2>Menu</h2>
-    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/allorders">Show all orders</a>
-    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" href="/registerEmployee">Register Employee</a>
-    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/addProduct">Add New Product</a>
-    <a sec:authorize="isAnonymous()" href="/registerCustomer">Register</a>
+    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/allorders">Show all orders |</a>
+    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" href="/registerEmployee">Register Employee |</a>
+    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/addProduct">Add New Product |</a>
+    <a sec:authorize="isAnonymous()" href="/registerCustomer">Register |</a>
     <a href="/basket" th:text="'Basket(' + ${basketCount} + ')'">Basket</a>
 </div>
 
