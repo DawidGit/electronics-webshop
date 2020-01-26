@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/registerCustomer/**",
+                .antMatchers("/", "/home", "/registerCustomer/**", "resources/static/**",
                         "resources/templates/error", "resources/templates/index", "/basket/**").permitAll()
                 .antMatchers().hasAnyRole("ADMIN", "EMPLOYEE", "CUSTOMER")
                 .antMatchers("/addProduct/**", "/allOrders**").hasAnyRole("ADMIN", "EMPLOYEE")
@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .logout()
+                .logoutSuccessUrl("/")
                     .permitAll();
     }
 

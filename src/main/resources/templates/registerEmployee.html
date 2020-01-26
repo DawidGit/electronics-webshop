@@ -7,6 +7,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<div th:replace="fragments/header :: header">
+</div>
 <h1>Employee Registration</h1>
 <form action="#" th:object="${user}" method="POST" enctype="utf8">
     <div>
@@ -39,8 +41,7 @@
     <!--    </div>-->
     <button type="submit">submit</button>
 </form>
-<a href="/">Go Home</a>
 
-<a th:href="@{/login.html}">login</a>
+<a th:href="@{/login}">login</a>
 </body>
 </html>

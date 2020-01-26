@@ -1,33 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
 <head>
-    <meta charset="UTF-8">
-    <title>Starting Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Webshop</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
 </head>
 <body>
-<form sec:authorize="!isAnonymous()" th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<form sec:authorize="isAnonymous()" th:action="@{/login}" method="post">
-    <input type="submit" value="Sign In"/>
-</form>
-<h3 th:inline="text" th:text="'Hello ' + (${#httpServletRequest.remoteUser} ?: 'anon') + '!'"></h3>
-<div align="center">
-    <h2>Menu</h2>
-    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/allorders">Show all orders |</a>
-    <a sec:authorize="hasAnyRole('ROLE_ADMIN')" href="/registerEmployee">Register Employee |</a>
-    <a sec:authorize="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')" href="/addProduct">Add New Product |</a>
-    <a sec:authorize="isAnonymous()" href="/registerCustomer">Register |</a>
-    <a href="/basket" th:text="'Basket(' + ${basketCount} + ')'">Basket</a>
+<div th:replace="fragments/header :: header">
 </div>
 
-<p></p>
-<div align="center">
-    <table border="1" cellpadding="10">
+<div class="container" align="center">
+    <table border="1">
         <thead>
         <tr>
             <th>Product ID</th>
@@ -49,31 +37,12 @@
         </tr>
         </tbody>
     </table>
-    <p></p>
-    <!--    <table border="1" cellpadding="10">-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>Order ID</th>-->
-    <!--            <th>Product Name</th>-->
-    <!--            <th>Quantity</th>-->
-    <!--            <th>Add</th>-->
-    <!--            <th>Remove</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr th:each="product : ${listProductsByOrder}">-->
-    <!--            <td th:text="${order.id}">Product ID</td>-->
-    <!--            <td th:text="${order.productName}">Order Date</td>-->
-    <!--            <form th:action="@{/}" method="post">-->
-    <!--                <td>-->
-    <!--                    <button type="submit" th:value="${product.id}" th:name="id">Add</button>-->
-    <!--                </td>-->
-    <!--                <td><input type="text" value="1" th:name="quantity"/></td>-->
-    <!--            </form>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
 </div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
 <body>

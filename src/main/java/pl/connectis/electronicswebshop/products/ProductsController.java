@@ -13,6 +13,7 @@ import java.security.Principal;
 
 
 @Controller
+@ControllerAdvice
 public class ProductsController {
 
     @Autowired
@@ -22,28 +23,22 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
-
-//@PostMapping("/order/{productName}")
-//public Order newOrder (@PathVariable String productName) {
-//   return orderRepository.createOrder(new Product(productName));
-//}
-
-    //Czynności po stronie Pracownika
-
-    private String indexView(Model model, String username) {
+    private String indexView(Model model) {
         Iterable<Product> listProducts = productService.getAllProducts();
-        Order foundOrder = orderService.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
-        int basketCount = ((foundOrder == null) ? 0 : foundOrder.getProducts().size());
         model.addAttribute("listProducts", listProducts);
-        model.addAttribute("basketCount", basketCount);
-
         return "index";
     }
 
-    @GetMapping({"/", "/home"})
-    public String viewAllProducts(Model model, Principal principal) {
+    @ModelAttribute
+    private void basketCountView(Model model, Principal principal) {
         String username = ((principal == null) ? "Anonymous" : principal.getName());
-        return indexView(model, username);
+        Order foundOrder = orderService.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
+        model.addAttribute("basketCount", (foundOrder == null) ? 0 : foundOrder.getProducts().size());
+    }
+
+    @GetMapping({"/", "/home"})
+    public String viewAllProducts(Model model) {
+        return indexView(model);
     }
 
 
@@ -60,8 +55,8 @@ public class ProductsController {
         if (product.getStock() < quantity) return "error1";
         String username = ((principal == null) ? "Anonymous" : principal.getName());
         if (!orderService.addProductToOrder(product, quantity, username)) return "error1";
-
-        return indexView(model, username);
+        basketCountView(model, principal);
+        return indexView(model);
     }
 
 
