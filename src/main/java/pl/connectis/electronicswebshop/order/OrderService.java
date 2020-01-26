@@ -98,9 +98,11 @@ public class OrderService implements IOrderService {
                 OrderLine orderLine = iterator.next();
                 if (orderLine.getProduct().equals(product)) {
                     if (orderLine.getQuantity() - quantity <= 0) {
+                        product.setStock(orderLine.getQuantity() + quantity);
                         iterator.remove();
                         orderLineRepository.delete(orderLine);
                     } else {
+                        product.setStock(orderLine.getQuantity() + quantity);
                         orderLine.setQuantity(orderLine.getQuantity() - quantity);
                     }
                 }

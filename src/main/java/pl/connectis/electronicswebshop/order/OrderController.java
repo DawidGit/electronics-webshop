@@ -81,7 +81,7 @@ public class OrderController {
 
         if (foundOrder != null) {
 
-            List<ProductQuantity> productsList = new ArrayList<>(foundOrder.getProducts());
+            List<OrderLine> productsList = new ArrayList<>(foundOrder.getProducts());
             model.addAttribute("productsList", productsList);
             model.addAttribute("order", foundOrder);
         } else {
@@ -95,39 +95,6 @@ public class OrderController {
     @PostMapping("/basket")
     public String deleteArticleFromOrder(
             @RequestParam(value = "quantity", required = false) int quantity,
-            @RequestParam(value = "id", required = false) long productID, OrderStatus orderStatus,
-            Principal principal) {
-
-        Order currentOrder = orderService.findByAddedByAndOrderStatus(principal.getName(), OrderStatus.OPEN);
-
-        for (ProductQuantity product : currentOrder.getProducts()
-        ) {
-
-            if (product.getProduct().getId().equals(productID)) {
-
-                if (product.getQuantity() <= quantity) {
-
-                    orderRepository.deleteByProductsId(product.getId());
-                    currentOrder.products.remove(product);
-
-                    Product foundProduct = productsRepository.findById(productID);
-                    foundProduct.setStock(product.getQuantity() + product.getQuantity());
-
-                } else {
-                    product.setQuantity(product.getQuantity() - quantity);
-                    Product foundProduct = productsRepository.findById(productID);
-                    foundProduct.setStock(product.getQuantity() + quantity);
-
-                    log.info("Id prodduktu są równie");
-
-                }
-
-            }
-
-            return "index";
-        }
-
-        return "index";
             @RequestParam(value = "productId", required = false) Long productID,
             @RequestParam(value = "orderId") Long orderID, OrderStatus orderStatus, Principal principal, Model model
     ) {
@@ -135,8 +102,8 @@ public class OrderController {
         return showBasket(model, principal, order);
     }
 
-    }
 }
+
 
 //    public @ResponseBody Iterable<Order> getAllOrders() {
 //        return orderRepository.findAll();

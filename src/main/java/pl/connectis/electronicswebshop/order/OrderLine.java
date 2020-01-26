@@ -11,12 +11,12 @@ public class OrderLine {
     @EmbeddedId
     private OrderLineKey id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("orderid")
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productid")
     @JoinColumn(name = "product_id")
     private Product product;
