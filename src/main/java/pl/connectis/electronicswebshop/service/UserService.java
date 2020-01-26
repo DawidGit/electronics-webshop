@@ -30,7 +30,7 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
-    public void addUser(UserDto userDto) {
+    public void addCustomerUser(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
@@ -38,6 +38,17 @@ public class UserService implements IUserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_CUSTOMER")));
+        userRepository.save(user);
+    }
+
+    public void addEmployeeUser(UserDto userDto) {
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_EMPLOYEE")));
         userRepository.save(user);
     }
 

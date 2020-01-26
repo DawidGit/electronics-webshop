@@ -32,9 +32,29 @@ public class UserRegistrationController {
             @ModelAttribute("user") UserDto user
     ) {
 
-        userService.addUser(user);
+        userService.addCustomerUser(user);
 
-        return "zarejestrowano użytkownika " + user.getUsername();
+        return "zarejestrowano klienta " + user.getUsername();
+    }
+
+    @GetMapping("/registerEmployee")
+    public String registerEmployeeForm(Model model) {
+
+        UserDto user = new UserDto();
+
+        model.addAttribute("user", user);
+
+        return "registerEmployee";
+    }
+
+    @PostMapping("/registerEmployee")
+    @ResponseBody
+    public String registerEmployee(
+            @ModelAttribute("user") UserDto user
+    ) {
+        userService.addEmployeeUser(user);
+
+        return "zarejestrowano pracownika " + user.getUsername();
     }
 
 }

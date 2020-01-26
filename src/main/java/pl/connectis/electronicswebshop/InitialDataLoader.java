@@ -16,10 +16,7 @@ import pl.connectis.electronicswebshop.persistence.model.User;
 import pl.connectis.electronicswebshop.products.Product;
 import pl.connectis.electronicswebshop.products.ProductsRepository;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -87,14 +84,16 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         employee.setRoles(Collections.singletonList(employeeRole));
         userRepository.save(employee);
 
-        Product product = new Product();
-        product.setProductName("ProduktTest1Nazwa");
-        product.setStock(100);
-        product.setAddedBy("Admin");
-        productsRepository.save(product);
+        for (int i = 0; i < 9; i++) {
+            Product product = new Product();
+            product.setProductName("ProduktTest" + i + "Nazwa");
+            product.setStock(new Random().nextInt(10) * i + 1);
+            product.setAddedBy("Admin");
+            productsRepository.save(product);
+        }
 
         Product product2 = new Product();
-        product2.setProductName("ProduktTest4Nazwa");
+        product2.setProductName("ProduktTest9Nazwa");
         product2.setStock(50);
         product2.setAddedBy("Employee");
         productsRepository.save(product2);
