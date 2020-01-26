@@ -79,10 +79,12 @@ public class OrderService implements IOrderService {
             if (products.getProduct().equals(product)) {
                 orderLine = products;
                 orderLine.setQuantity(orderLine.getQuantity() + quantity);
+                product.setStock(product.getStock() - quantity);
             }
         }
         if (orderLine == null) {
             orderLine = new OrderLine(lastOpenOrder, product, quantity);
+            product.setStock(product.getStock() - quantity);
             lastOpenOrder.getProducts().add(orderLine);
         }
         saveOrder(lastOpenOrder);

@@ -54,12 +54,12 @@ public class ProductsController {
             Model model,
             Principal principal
     ) {
-        if (quantity < 0) return "error";
+        if (quantity < 0) return "error1";
         Product product = productService.getProductByID(productID);
-        if (product == null) return "error";
-        if (product.getStock() < quantity) return "error";
+        if (product == null) return "error1";
+        if (product.getStock() < quantity) return "error1";
         String username = ((principal == null) ? "Anonymous" : principal.getName());
-        if (!orderService.addProductToOrder(product, quantity, username)) return "error";
+        if (!orderService.addProductToOrder(product, quantity, username)) return "error1";
 
         return indexView(model, username);
     }
