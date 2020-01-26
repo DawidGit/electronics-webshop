@@ -16,14 +16,19 @@
             <th>Order ID</th>
             <th>Order Date</th>
             <th>Products</th>
-            <th>Quantity</th>
+            <th>Order Status</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="order : ${listOrders}">
-            <td th:text="${order.id}">Product ID</td>
-            <td th:text="${order.orderDate}">Order Date</td>
-            <td th:text="${order.orderStatus}">Order status</td>
+        <tbody th:each="map : ${productsMap}" th:remove="tag">
+        <tr>
+            <td th:text="${map.key.id}">Product ID</td>
+            <td th:text="${map.key.orderDate}">Order Date</td>
+            <td>
+                <th:block th:each="product : ${map.value}">
+                    <p th:text="${product.productName}">ProductName</p>
+                </th:block>
+            </td>
+            <td th:text="${map.key.orderStatus}">Order status</td>
 
         </tr>
         </tbody>

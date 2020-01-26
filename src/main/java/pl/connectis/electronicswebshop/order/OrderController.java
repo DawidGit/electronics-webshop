@@ -12,7 +12,9 @@ import pl.connectis.electronicswebshop.products.ProductsRepository;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -45,10 +47,17 @@ public class OrderController {
 //    }
 
 
-    @GetMapping(value = "/allorders")
+    @GetMapping("/allorders")
     public String viewAllOrders(Model model) {
         Iterable<Order> listOrders = orderService.getAllOrders();
+        Map<Order, Iterable<Product>> productsMap = new HashMap();
+        for (Order order : listOrders
+        ) {
+            List<Product> productList = productService.getAllProductsByOrderId(order);
+            productsMap.put(order, productList);
+        }
         model.addAttribute("listOrders", listOrders);
+        model.addAttribute("productsMap", productsMap);
         return "allOrdersView";
     }
 

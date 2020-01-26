@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.order.Order;
+import pl.connectis.electronicswebshop.order.OrderLine;
 import pl.connectis.electronicswebshop.service.IProductService;
 
 import java.util.ArrayList;
@@ -45,8 +46,11 @@ public class ProductService implements IProductService {
     public List<Product> getAllProductsByOrderId(Order order) {
         List<Product> selectedList = new ArrayList<>();
         for (Product product : productsRepository.findAll()) {
-            if (product.getOrders().equals(order.getId()))
-                selectedList.add(product);
+            for (OrderLine orderLine : product.getOrders()
+            ) {
+                if (orderLine.getOrder().getId().equals(order.getId()))
+                    selectedList.add(product);
+            }
         }
         return selectedList;
 
