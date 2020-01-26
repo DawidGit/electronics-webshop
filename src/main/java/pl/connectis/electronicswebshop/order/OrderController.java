@@ -1,5 +1,6 @@
 package pl.connectis.electronicswebshop.order;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class OrderController {
 
     //private final OrderRepository orderRepository;
@@ -95,28 +97,41 @@ public class OrderController {
     @PostMapping("/deleteArticle")
     public String deleteArticleFromOrder(
             @RequestParam(value = "quantity", required = false) int quantity,
-            @RequestParam(value = "id", required = false) Long productID,
-            Long orderID, OrderStatus orderStatus, Principal principal
-    ) {
+            @RequestParam(value = "id", required = false) long productID, OrderStatus orderStatus,
+            Principal principal) {
 
         Order currentOrder = orderService.findByAddedByAndOrderStatus(principal.getName(), OrderStatus.OPEN);
-        List<ProductQuantity> productsList = new ArrayList<>(currentOrder.getProducts());
-
-        List<ProductQuantity> currProductsList = new ArrayList<>();
 
         for (ProductQuantity product : currentOrder.getProducts()
         ) {
 
             if (product.getProduct().getId().equals(productID)) {
 
+                if (product.getQuantity() <= quantity) {
+
+                    orderRepository.deleteByProductsId(product.getId());
+                    currentOrder.products.remove(product);
+
+                    Product foundProduct = productsRepository.findById(productID);
+                    foundProduct.setStock(product.getQuantity() + product.getQuantity());
+
+                } else {
+                    product.setQuantity(product.getQuantity() - quantity);
+                    Product foundProduct = productsRepository.findById(productID);
+                    foundProduct.setStock(product.getQuantity() + quantity);
+
+                    log.info("Id prodduktu są równie");
+
+                }
 
             }
 
+            return "index";
         }
 
         return "index";
-    }
 
+    }
 }
 
 //    public @ResponseBody Iterable<Order> getAllOrders() {

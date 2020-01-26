@@ -11,12 +11,12 @@ public class ProductQuantity {
     @EmbeddedId
     private ProductQuantityKey id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("orderid")
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("productid")
     @JoinColumn(name = "product_id")
     private Product product;

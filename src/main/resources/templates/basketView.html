@@ -31,7 +31,7 @@
 
         <tbody>
         <tr th:each="product: ${productsList}">
-            <td th:text="${product.product.id}">Product ID</td>
+            <td th:type="long" th:text="${product.product.id}">Product ID</td>
             <td th:text="${product.product.productName}">Product name</td>
             <td th:text="${product.quantity}">Product name</td>
 
@@ -39,7 +39,7 @@
 
                 <td><input type="number" th:name="quantity"/></td>
                 <td>
-                    <button type="submit" th:value="${product.product.id}" value="id">Delete</button>
+                    <button type="submit" th:type="long" th:value="${product.product.id}" th:name="id">Delete</button>
                 </td>
             </form>
         </tr>
