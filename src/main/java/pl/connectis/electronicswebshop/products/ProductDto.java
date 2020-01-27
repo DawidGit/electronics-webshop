@@ -1,22 +1,25 @@
 package pl.connectis.electronicswebshop.products;
 
+import org.springframework.stereotype.Component;
 import pl.connectis.electronicswebshop.persistence.model.User;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 
+@Component
 public class ProductDto {
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Pole nie może być 0")
+    @NotEmpty(message = "Nie może być puste")
     public String productName;
 
     @NotNull
-    @NotEmpty
+    @Min(value = 1, message = "wartość musi być min 1")
     public int stock;
 
-    @NotNull
-    @NotEmpty
+
     public String addedBy;
 
     private User user;
@@ -37,8 +40,8 @@ public class ProductDto {
         this.stock = stock;
     }
 
-    public String getAddedBy() {
-        this.addedBy = user.getFirstName();
+    public String getAddedBy(Principal principal) {
+        this.addedBy = principal.getName();
         return this.addedBy;
     }
 

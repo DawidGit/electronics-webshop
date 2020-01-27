@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add product do Electronic Web Store</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>form</h1>
+<form action="#" th:action="@{/addProduct}" th:object="${product}"
+      method="post">
+    <div>
+        <label>Article name</label>
+        <input th:type="text" maxlength="20" th:field="*{productName}"/>
+    </div>
+    <div>
+        <label>Stock</label>
+        <input th:type="number" th:field="*{stock}"/>
+
+    </div>
+
+    <button type="submit">submit</button>
+</form>
+
+</body>
+</html>

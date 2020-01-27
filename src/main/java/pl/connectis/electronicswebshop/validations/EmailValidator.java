@@ -1,6 +1,4 @@
-package pl.connectis.electronicswebshop.validation;
-
-import pl.connectis.electronicswebshop.validation.ValidEmail;
+package pl.connectis.electronicswebshop.validations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

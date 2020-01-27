@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order View</title>
+</head>
+<body>
+<div align="center">
+
+    <div align="center">
+        <h1>Products:</h1>
+    </div>
+    <h1>${error}</h1>
+    <form action="#" th:object="${product}" method="get" enctype="utf8">
+        <table align="center" border="1" cellpadding="10">
+
+
+            <tbody>
+            <tr th:each="product: ${allProducts}">
+                <td th:text="${product.productName}">Product ID</td>
+                <td th:text="${product.stock}">Product name</td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div>
+
+    </div>
+    <a href="/addProduct/new">Add Product</a>
+
+</div>
+</body>
+</html>
