@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop.web.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,12 +21,11 @@ import java.util.List;
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    @Qualifier("postgres")
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public MyUserDetailsService() {
+    public MyUserDetailsService(@Qualifier("postgres") UserRepository userRepository) {
         super();
+        this.userRepository = userRepository;
     }
 
     @Override

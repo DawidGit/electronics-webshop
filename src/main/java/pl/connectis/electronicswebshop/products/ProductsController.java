@@ -1,7 +1,6 @@
 package pl.connectis.electronicswebshop.products;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,17 +18,21 @@ import java.security.Principal;
 @Controller
 @ControllerAdvice
 public class ProductsController {
+    private final OrderService orderService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private ProductsRepository productsRepository;
-    @Autowired
-    private ProductService productService;
+    private final ProductsRepository productsRepository;
+    private final ProductService productService;
+
+    public ProductsController(OrderService orderService, ProductsRepository productsRepository, ProductService productService) {
+        this.orderService = orderService;
+        this.productsRepository = productsRepository;
+        this.productService = productService;
+    }
 
     private String indexView(Model model) {
         Iterable<Product> listProducts = productService.getAllProducts();
@@ -79,7 +82,7 @@ public class ProductsController {
     public String addNewProductForm(Model model, ProductDto productDto) {
 
         model.addAttribute("product", productDto);
-        return "addProduct1";
+        return "addProduct";
     }
 
 
@@ -88,27 +91,14 @@ public class ProductsController {
                              Model model) {
         if (bindingResult.hasErrors()) {
             System.out.println("BINDING RESULT HAS ERRORS");
-            return "addProduct1";
+            return "addProduct";
         } else {
             productService.addProduct(productDto);
             model.addAttribute("allProducts", productsRepository.findAll());
 
             return "productsView";
         }
-
     }
-
-
-//    @PostMapping("/addProduct")
-//    public String addProduct(@ModelAttribute("product") @Valid ProductDto productDto, Model model) {
-//
-//            productService.addProduct(productDto);
-//            model.addAttribute("allProducts", productsRepository.findAll());
-//
-//            return "productsView";
-//
-//    }
-
 }
 
 

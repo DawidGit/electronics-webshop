@@ -23,7 +23,7 @@ public class OrderLine {
 
     private int quantity;
 
-    OrderLine() {
+    public OrderLine() {
     }
 
     public OrderLine(Order order, Product product, int quantity) {

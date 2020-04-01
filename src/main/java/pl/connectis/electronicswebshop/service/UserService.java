@@ -1,7 +1,6 @@
 package pl.connectis.electronicswebshop.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,15 +14,17 @@ import java.util.Collections;
 
 @Service
 @Transactional
-public class UserService implements IUserService {
+public class UserService implements UserServiceInterface {
 
-    @Autowired
-    @Qualifier("postgres")
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(@Qualifier("postgres") UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void addUser(User user) {

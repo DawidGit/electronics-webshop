@@ -1,11 +1,9 @@
 package pl.connectis.electronicswebshop.order;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.products.Product;
-import pl.connectis.electronicswebshop.products.ProductsRepository;
-import pl.connectis.electronicswebshop.service.IOrderService;
+import pl.connectis.electronicswebshop.service.OrderServiceInterface;
 
 import java.security.Principal;
 import java.util.Iterator;
@@ -13,14 +11,15 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class OrderService implements IOrderService {
+public class OrderService implements OrderServiceInterface {
 
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderLineRepository orderLineRepository;
-    @Autowired
-    private ProductsRepository productsRepository;
+    private final OrderRepository orderRepository;
+    private final OrderLineRepository orderLineRepository;
+
+    public OrderService(OrderRepository orderRepository, OrderLineRepository orderLineRepository) {
+        this.orderRepository = orderRepository;
+        this.orderLineRepository = orderLineRepository;
+    }
 
     @Override
     public Order addOrder() {
@@ -40,7 +39,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order findById(int id) {
+    public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
 
@@ -94,8 +93,7 @@ public class OrderService implements IOrderService {
     public Order removeLine(long orderId, Product product, int quantity) {
         Optional<Order> foundOrder = orderRepository.findById(orderId);
         if (foundOrder.isPresent()) {
-            for (Iterator<OrderLine> iterator = foundOrder.get().getProducts().iterator();
-                 iterator.hasNext(); ) {
+            for (Iterator<OrderLine> iterator = foundOrder.get().getProducts().iterator(); iterator.hasNext(); ) {
 
                 OrderLine orderLine = iterator.next();
                 if (orderLine.getProduct().equals(product)) {
@@ -117,17 +115,4 @@ public class OrderService implements IOrderService {
     public Order findByAddedByAndOrderStatus(String username, OrderStatus orderStatus) {
         return orderRepository.findByAddedByAndOrderStatus(username, orderStatus);
     }
-
-
-    //   public List<Product> getAllPurchases (Order order) {
-
-//        List<Product> selectedList = new ArrayList<>();
-//
-//        for (Product product : productsRepository.findAll()) {
-////            if (purchase.getOrderID().equals(order.getId()))
-//            selectedList.add(product); }
-//        return selectedList;
-//    }
-
-
 }

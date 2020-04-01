@@ -95,36 +95,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    //    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-//        return grantedAuthorities;
-
-//    }
-//    @Override
-//    public String getUsername() {
-//        return login;
-
-//    }
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return isAccountNonExpired;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return isAccountNonLocked;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return isCredentialsNonExpired;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return isEnabled;
-
-//    }
 }

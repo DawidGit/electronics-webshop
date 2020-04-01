@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -23,21 +22,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private boolean alreadySetup = false;
 
-    @Autowired
-    @Qualifier("postgres")
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private final PrivilegeRepository privilegeRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ProductsRepository productsRepository;
+    private final ProductsRepository productsRepository;
+
+    public InitialDataLoader(@Qualifier("postgres") UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, PasswordEncoder passwordEncoder, ProductsRepository productsRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.privilegeRepository = privilegeRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.productsRepository = productsRepository;
+    }
 
     @Override
     @Transactional
@@ -102,7 +103,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     @Transactional
-    private Privilege createPrivilegeIfNotFound(String name) {
+    Privilege createPrivilegeIfNotFound(String name) {
 
         Privilege privilege = privilegeRepository.findByName(name);
         if (privilege == null) {
@@ -113,7 +114,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     @Transactional
-    private Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
+    Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
 
         Role role = roleRepository.findByName(name);
         if (role == null) {

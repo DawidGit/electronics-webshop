@@ -1,25 +1,61 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" rel="stylesheet">
 <head>
-    <title>Add product do Electronic Web Store</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <title>Add New Product</title>
+    <style th:include="fragments/header :: header-style"></style>
 </head>
 <body>
-<h1>form</h1>
-<form action="#" th:action="@{/addProduct}" th:object="${product}"
-      method="post">
-    <div>
-        <label>Article name</label>
-        <input th:type="text" maxlength="20" th:field="*{productName}"/>
+<!-- START PAGE CONTAINER -->
+<div th:replace="fragments/header :: header">
+</div>
+<div class="container-fluid">
+    <!-- PAGE TITLE -->
+    <div class="page-title">
+        <h2>
+            <span class="fa fa-arrow-circle-o-left"></span> Add new Product
+        </h2>
     </div>
-    <div>
-        <label>Stock</label>
-        <input th:type="number" th:field="*{stock}"/>
+    <div class="column">
+        <form action="#" method="post" th:action="@{/addProduct}"
+              th:object="${product}">
 
+            <table>
+                <tr>
+                    <td>Article name</td>
+                    <td><input maxlength="20" th:field="*{productName}" th:type="text"/></td>
+                    <td th:errors="*{productName}" th:if="${#fields.hasErrors('productName')}">Name
+                        Error
+                    </td>
+                </tr>
+                <tr>
+                    <td>Stock</td>
+                    <td><input th:field="*{stock}" th:type="number"/></td>
+                    <td th:errors="*{stock}" th:if="${#fields.hasErrors('stock')}">Name
+                        Error
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">submit</button>
+                    </td>
+
+                </tr>
+            </table>
+
+        </form>
     </div>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha256-VAvG3sHdS5LqTT+5A/aeq/bZGa/Uj04xKxY8KM/w9EE="
+        src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-    <button type="submit">submit</button>
-</form>
 
+<script
+        crossorigin="anonymous"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -3,18 +3,14 @@ package pl.connectis.electronicswebshop.order;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    // Order findById(int id);
-
-    Order findById(int id);
+    Optional<Order> findById(Long id);
 
     Iterable<Order> findAllByAddedBy(String addedBy);
-
-
-//    @Query("Select c from orders where addedBY = :addedBy and orderStatus = :orderStatus")
-//    Order findActiveOrder (@Param("addedBy") String addedBy, @Param("orderStatus") String orderStatus);
 
     Order findByAddedByAndOrderStatus(String addedBy, OrderStatus orderStatus);
 
@@ -23,9 +19,6 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
     Order findByOrderStatus(OrderStatus orderStatus);
 
     Order deleteProductById(OrderLine orderLine);
-
-
-//Order removeOrder(int orderID);
 
 
 }

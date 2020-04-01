@@ -13,7 +13,7 @@ public class OrderLineKey implements Serializable {
     @Column(name = "product_id")
     private Long productID;
 
-    private OrderLineKey() {
+    public OrderLineKey() {
     }
 
     public OrderLineKey(Long orderID, Long productID) {
