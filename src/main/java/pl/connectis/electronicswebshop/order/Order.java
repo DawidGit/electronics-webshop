@@ -43,7 +43,7 @@ public class Order {
         return orderDate;
     }
 
-    public Collection<OrderLine> getProducts() {
+    public Collection<OrderLine> getOrderLines() {
         return products;
     }
 

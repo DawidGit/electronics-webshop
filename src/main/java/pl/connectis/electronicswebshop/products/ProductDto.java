@@ -11,12 +11,11 @@ import java.security.Principal;
 @Component
 public class ProductDto {
 
-    @NotNull(message = "Pole nie może być 0")
     @NotEmpty(message = "Nie może być puste")
     public String productName;
 
     @NotNull
-    @Min(value = 1, message = "wartość musi być min 1")
+    @Min(value = 1, message = "Wartość musi być min 1")
     public int stock;
 
 

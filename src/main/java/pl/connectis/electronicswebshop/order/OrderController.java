@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.connectis.electronicswebshop.products.Product;
-import pl.connectis.electronicswebshop.products.ProductService;
-import pl.connectis.electronicswebshop.products.ProductsRepository;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -19,11 +17,8 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    private final ProductService productService;
-
-    public OrderController(OrderService orderService, OrderRepository orderRepository, ProductService productService, ProductsRepository productsRepository) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.productService = productService;
     }
 
 
@@ -63,7 +58,7 @@ public class OrderController {
 
         if (foundOrder != null) {
 
-            List<OrderLine> productsList = new ArrayList<>(foundOrder.getProducts());
+            List<OrderLine> productsList = new ArrayList<>(foundOrder.getOrderLines());
             model.addAttribute("productsList", productsList);
             model.addAttribute("order", foundOrder);
         } else {
@@ -82,7 +77,7 @@ public class OrderController {
             Principal principal,
             Model model
     ) {
-        Order order = orderService.removeLine(orderID, productService.getProductByID(productID), quantity);
+        Order order = orderService.removeLine(orderID, productID, quantity);
         return showBasket(model, principal, order);
     }
 
