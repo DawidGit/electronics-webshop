@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop.web.registration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +12,11 @@ import pl.connectis.electronicswebshop.service.UserService;
 @Controller
 public class UserRegistrationController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserRegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/registerCustomer")
     public String registerCustomerForm(Model model) {
