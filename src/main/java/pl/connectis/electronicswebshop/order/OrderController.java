@@ -31,8 +31,8 @@ public class OrderController {
 
 
     @GetMapping("/deleteOrder")
-    public String viewDeleteConfirmation(Model model, Order order, Principal principal, OrderStatus orderStatus) {
-        orderService.deleteOrder(principal, orderStatus);
+    public String viewDeleteConfirmation(Principal principal) {
+        orderService.deleteOrder(principal);
         return "deleteOrderConfirmationView";
     }
 
@@ -58,7 +58,7 @@ public class OrderController {
 
         if (foundOrder != null) {
 
-            List<OrderLine> productsList = new ArrayList<>(foundOrder.getOrderLines());
+            List<OrderLine> productsList = new ArrayList<>(foundOrder.getProducts());
             model.addAttribute("productsList", productsList);
             model.addAttribute("order", foundOrder);
         } else {

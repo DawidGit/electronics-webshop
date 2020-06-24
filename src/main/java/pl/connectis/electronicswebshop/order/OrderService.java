@@ -54,10 +54,10 @@ public class OrderService implements OrderServiceInterface {
 
     public Iterable<OrderLine> findAllProductsByOrder(Order lastOpenOrder) {
 
-        return orderRepository.findById(lastOpenOrder.getId()).get().getOrderLines();
+        return orderRepository.findById(lastOpenOrder.getId()).get().getProducts();
     }
 
-    public void deleteOrder(Principal principal, OrderStatus orderStatus) {
+    public void deleteOrder(Principal principal) {
         String username = ((principal == null) ? "Anonymous" : principal.getName());
         Order order = orderRepository.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
         orderRepository.delete(order);
@@ -84,7 +84,7 @@ public class OrderService implements OrderServiceInterface {
         if (orderLine == null) {
             orderLine = new OrderLine(lastOpenOrder, product, quantity);
             product.setStock(product.getStock() - quantity);
-            lastOpenOrder.getOrderLines().add(orderLine);
+            lastOpenOrder.getProducts().add(orderLine);
         }
         saveOrder(lastOpenOrder);
         return true;
@@ -93,7 +93,7 @@ public class OrderService implements OrderServiceInterface {
     public Order removeLine(long orderId, long productId, int quantity) {
         Optional<Order> foundOrder = orderRepository.findById(orderId);
         if (foundOrder.isPresent()) {
-            for (Iterator<OrderLine> iterator = foundOrder.get().getOrderLines().iterator(); iterator.hasNext(); ) {
+            for (Iterator<OrderLine> iterator = foundOrder.get().getProducts().iterator(); iterator.hasNext(); ) {
 
                 OrderLine orderLine = iterator.next();
                 Product product = orderLine.getProduct();

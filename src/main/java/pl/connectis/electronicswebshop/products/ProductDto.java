@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop.products;
 
-import org.springframework.stereotype.Component;
 import pl.connectis.electronicswebshop.persistence.model.User;
 
 import javax.validation.constraints.Min;
@@ -8,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 
-@Component
+
 public class ProductDto {
 
     @NotEmpty(message = "Nie może być puste")

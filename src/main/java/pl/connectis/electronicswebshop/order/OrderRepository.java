@@ -10,11 +10,5 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     Order findByAddedByAndOrderStatus(String addedBy, OrderStatus orderStatus);
 
-    Order findByAddedBy(String username);
-
-    Order findByOrderStatus(OrderStatus orderStatus);
-
-    Order deleteProductById(OrderLine orderLine);
-
 
 }

@@ -44,7 +44,7 @@ public class ProductsController {
     private void basketCountView(Model model, Principal principal) {
         String username = ((principal == null) ? "Anonymous" : principal.getName());
         Order foundOrder = orderService.findByAddedByAndOrderStatus(username, OrderStatus.OPEN);
-        model.addAttribute("basketCount", (foundOrder == null) ? 0 : foundOrder.getOrderLines().size());
+        model.addAttribute("basketCount", (foundOrder == null) ? 0 : foundOrder.getProducts().size());
     }
 
     @GetMapping({"/", "/home"})

@@ -1,5 +1,6 @@
 package pl.connectis.electronicswebshop.order;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -21,7 +23,7 @@ public class Order {
     private final LocalDate orderDate = LocalDate.now();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    public final Collection<OrderLine> products = new HashSet<>();
+    private final Collection<OrderLine> products = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -31,37 +33,6 @@ public class Order {
     public Order() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
-
-    public Collection<OrderLine> getOrderLines() {
-        return products;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getAddedBy() {
-        return addedBy;
-    }
-
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
-    }
 
     @Override
     public boolean equals(Object o) {
