@@ -23,11 +23,7 @@ public class OrderService implements OrderServiceInterface {
 
     @Override
     public Order addOrder() {
-        Order order = new Order();
-        order.setAddedBy("Anonymous");
-        order.setOrderStatus(OrderStatus.OPEN);
-        orderRepository.save(order);
-        return order;
+        return addOrder("Anonymous");
     }
 
     public Order addOrder(String username) {
@@ -36,15 +32,6 @@ public class OrderService implements OrderServiceInterface {
         order.setOrderStatus(OrderStatus.OPEN);
         orderRepository.save(order);
         return order;
-    }
-
-    @Override
-    public Optional<Order> findById(Long id) {
-        return orderRepository.findById(id);
-    }
-
-    public Iterable<Order> findAllByAddedBy(String addedBy) {
-        return orderRepository.findAllByAddedBy(addedBy);
     }
 
     @Override

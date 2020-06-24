@@ -1,11 +1,11 @@
 package pl.connectis.electronicswebshop;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.persistence.dao.PrivilegeRepository;
 import pl.connectis.electronicswebshop.persistence.dao.RoleRepository;
 import pl.connectis.electronicswebshop.persistence.dao.UserRepository;
@@ -17,8 +17,9 @@ import pl.connectis.electronicswebshop.products.ProductsRepository;
 
 import java.util.*;
 
+@Profile({"test", "dev"})
 @Component
-public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+public class InitialDataLoader implements ApplicationRunner {
 
     private boolean alreadySetup = false;
 
@@ -41,9 +42,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     @Override
-    @Transactional
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-
+    public void run(ApplicationArguments args) throws Exception {
         if (alreadySetup)
             return;
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
@@ -102,25 +101,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         alreadySetup = true;
     }
 
-    @Transactional
-    Privilege createPrivilegeIfNotFound(String name) {
+    private Privilege createPrivilegeIfNotFound(String name) {
 
         Privilege privilege = privilegeRepository.findByName(name);
         if (privilege == null) {
             privilege = new Privilege(name);
-            privilegeRepository.save(privilege);
+            privilege = privilegeRepository.save(privilege);
         }
         return privilege;
     }
 
-    @Transactional
-    Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
+    private Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
 
         Role role = roleRepository.findByName(name);
         if (role == null) {
             role = new Role(name);
             role.setPrivileges(privileges);
-            roleRepository.save(role);
+            role = roleRepository.save(role);
         }
         return role;
     }
