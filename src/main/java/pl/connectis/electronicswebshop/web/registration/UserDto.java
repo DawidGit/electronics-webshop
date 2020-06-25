@@ -5,32 +5,25 @@ import lombok.Data;
 import pl.connectis.electronicswebshop.web.validation.PasswordMatches;
 import pl.connectis.electronicswebshop.web.validation.ValidEmail;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @PasswordMatches
 public class UserDto {
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Pole nie może być puste")
     private String username;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Pole nie może być puste")
     private String firstName;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Pole nie może być puste")
     private String lastName;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Pole nie może być puste")
     private String password;
     private String matchingPassword;
 
     @ValidEmail
-    @NotNull
-    @NotEmpty
     private String email;
 }

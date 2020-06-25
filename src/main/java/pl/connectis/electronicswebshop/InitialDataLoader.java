@@ -15,6 +15,8 @@ import pl.connectis.electronicswebshop.persistence.model.Role;
 import pl.connectis.electronicswebshop.persistence.model.User;
 import pl.connectis.electronicswebshop.products.Product;
 import pl.connectis.electronicswebshop.products.ProductsRepository;
+import pl.connectis.electronicswebshop.web.security.Privileges;
+import pl.connectis.electronicswebshop.web.security.Roles;
 
 import java.util.*;
 
@@ -46,20 +48,21 @@ public class InitialDataLoader implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         if (alreadySetup)
             return;
-        Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        Privilege userManagmentPrivilege = createPrivilegeIfNotFound("USER_MANAGEMENT_PRIVILEGE");
+
+        Privilege readPrivilege = createPrivilegeIfNotFound(Privileges.READ_PRIVILEGE.name());
+        Privilege writePrivilege = createPrivilegeIfNotFound(Privileges.WRITE_PRIVILEGE.name());
+        Privilege userManagementPrivilege = createPrivilegeIfNotFound(Privileges.USER_MANAGEMENT_PRIVILEGE.name());
 
         List<Privilege> adminPrivileges = Arrays.asList(
-                readPrivilege, writePrivilege, userManagmentPrivilege);
+                readPrivilege, writePrivilege, userManagementPrivilege);
         List<Privilege> employeePrivileges = Arrays.asList(
                 readPrivilege, writePrivilege);
-        Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-        Role customerRole = createRoleIfNotFound("ROLE_CUSTOMER", Collections.singletonList(readPrivilege));
-        Role employeeRole = createRoleIfNotFound("ROLE_EMPLOYEE", employeePrivileges);
+        Role adminRole = createRoleIfNotFound(Roles.ROLE_ADMIN.name(), adminPrivileges);
+        Role customerRole = createRoleIfNotFound(Roles.ROLE_CUSTOMER.name(), Collections.singletonList(readPrivilege));
+        Role employeeRole = createRoleIfNotFound(Roles.ROLE_EMPLOYEE.name(), employeePrivileges);
 
         User admin = new User();
         admin.setUsername("Admin");
