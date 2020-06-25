@@ -38,7 +38,6 @@ public class OrderController {
 
 
     @GetMapping("/addorder")
-
     public String addedOrder(Model model) {
         model.addAttribute("order", orderService.addOrder());
         return "addedOrderView";

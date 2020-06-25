@@ -1,10 +1,14 @@
 package pl.connectis.electronicswebshop.order;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.connectis.electronicswebshop.products.Product;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class OrderLine {
 
@@ -23,46 +27,11 @@ public class OrderLine {
 
     private int quantity;
 
-    public OrderLine() {
-    }
-
     public OrderLine(Order order, Product product, int quantity) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
         this.id = new OrderLineKey(order.getId(), product.getId());
-    }
-
-    public OrderLineKey getId() {
-        return id;
-    }
-
-    public void setId(OrderLineKey id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     @Override
