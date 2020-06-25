@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.connectis.electronicswebshop.order.OrderService;
 import pl.connectis.electronicswebshop.persistence.dao.PrivilegeRepository;
 import pl.connectis.electronicswebshop.persistence.dao.RoleRepository;
 import pl.connectis.electronicswebshop.persistence.dao.UserRepository;
@@ -33,12 +34,15 @@ public class InitialDataLoader implements ApplicationRunner {
 
     private final ProductsRepository productsRepository;
 
-    public InitialDataLoader(@Qualifier("postgres") UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, PasswordEncoder passwordEncoder, ProductsRepository productsRepository) {
+    private final OrderService orderService;
+
+    public InitialDataLoader(@Qualifier("postgres") UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, PasswordEncoder passwordEncoder, ProductsRepository productsRepository, OrderService orderService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.privilegeRepository = privilegeRepository;
         this.passwordEncoder = passwordEncoder;
         this.productsRepository = productsRepository;
+        this.orderService = orderService;
     }
 
     @Override
@@ -97,6 +101,9 @@ public class InitialDataLoader implements ApplicationRunner {
         product2.setStock(50);
         product2.setAddedBy("Employee");
         productsRepository.save(product2);
+
+        orderService.addOrder("Admin");
+        orderService.addProductToOrder(product2, 10, "Admin");
 
         alreadySetup = true;
     }
