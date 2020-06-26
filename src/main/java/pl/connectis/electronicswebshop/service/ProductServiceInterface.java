@@ -5,7 +5,7 @@ import pl.connectis.electronicswebshop.products.ProductDto;
 
 public interface ProductServiceInterface {
 
-    void addProduct(Product product);
+    Product addProduct(Product product);
 
-    void addProduct(ProductDto productDto);
+    Product addProduct(ProductDto productDto);
 }

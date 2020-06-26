@@ -21,18 +21,19 @@ public class ProductService implements ProductServiceInterface {
     }
 
     @Override
-    public void addProduct(Product product) {
-        productsRepository.save(product);
+    public Product addProduct(Product product) {
+        return productsRepository.save(product);
     }
 
     @Override
-    public void addProduct(ProductDto productDto) {
+    public Product addProduct(ProductDto productDto) {
 
         Product product = new Product();
-        product.setProductName(productDto.productName);
+        product.setProductName(productDto.getProductName());
         product.setStock(productDto.getStock());
+        product.setAddedBy(productDto.getAddedBy());
 
-        productsRepository.save(product);
+        return productsRepository.save(product);
     }
 
     public Product getProductByID(Long productID) {

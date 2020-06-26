@@ -1,7 +1,6 @@
 package pl.connectis.electronicswebshop.products;
 
 import lombok.Data;
-import pl.connectis.electronicswebshop.persistence.model.User;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -12,15 +11,13 @@ import java.security.Principal;
 public class ProductDto {
 
     @NotEmpty(message = "Nie może być puste")
-    public String productName;
+    private String productName;
 
     @NotNull
     @Min(value = 1, message = "Wartość musi być min 1")
-    public int stock;
+    private int stock;
 
-    public String addedBy;
-
-    private User user;
+    private String addedBy;
 
     public String getAddedBy(Principal principal) {
         this.addedBy = principal.getName();
