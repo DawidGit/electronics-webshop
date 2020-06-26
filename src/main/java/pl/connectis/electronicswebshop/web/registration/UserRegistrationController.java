@@ -35,6 +35,7 @@ public class UserRegistrationController {
     public ModelAndView registerCustomer(
             @ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, ModelAndView mav) {
         mav.setViewName("register");
+        mav.addObject("userType", "Customer");
         if (bindingResult.hasErrors()) {
             return mav;
         }
@@ -58,6 +59,7 @@ public class UserRegistrationController {
     public ModelAndView registerEmployee(
             @ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, ModelAndView mav) {
         mav.setViewName("register");
+        mav.addObject("userType", "Employee");
         if (bindingResult.hasErrors()) {
             return mav;
         }
@@ -71,6 +73,11 @@ public class UserRegistrationController {
 
 
         return new ModelAndView("successRegister", "user", userDto);
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
     }
 
     private String register(Model model, String userType) {
