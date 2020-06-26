@@ -21,27 +21,20 @@ public class UserRegistrationController {
 
     private final UserService userService;
 
-    private final ModelAndView mav = new ModelAndView();
-
     public UserRegistrationController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/registerCustomer")
     public String registerCustomerForm(Model model) {
-
-        UserDto user = new UserDto();
-
-        model.addAttribute("user", user);
-
-        return "registerCustomer";
+        return register(model, "Customer");
     }
 
     @PostMapping("/registerCustomer")
     @ResponseBody
     public ModelAndView registerCustomer(
             @ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, ModelAndView mav) {
-        mav.setViewName("registerCustomer");
+        mav.setViewName("register");
         if (bindingResult.hasErrors()) {
             return mav;
         }
@@ -57,18 +50,14 @@ public class UserRegistrationController {
 
     @GetMapping("/registerEmployee")
     public String registerEmployeeForm(Model model) {
-
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
-
-        return "registerEmployee";
+        return register(model, "Employee");
     }
 
     @PostMapping("/registerEmployee")
     @ResponseBody
     public ModelAndView registerEmployee(
             @ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, ModelAndView mav) {
-        mav.setViewName("registerEmployee");
+        mav.setViewName("register");
         if (bindingResult.hasErrors()) {
             return mav;
         }
@@ -82,6 +71,13 @@ public class UserRegistrationController {
 
 
         return new ModelAndView("successRegister", "user", userDto);
+    }
+
+    private String register(Model model, String userType) {
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        model.addAttribute("userType", userType);
+        return "register";
     }
 
 }
