@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.persistence.dao.UserRepository;
-import pl.connectis.electronicswebshop.persistence.model.Privilege;
 import pl.connectis.electronicswebshop.persistence.model.Role;
 import pl.connectis.electronicswebshop.persistence.model.User;
 
@@ -32,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("No user found with username: " + username);
         }
         return new MyUserPrincipal(user, getAuthorities(userRepository.findByUsername(username).getRoles()));
     }
@@ -46,13 +45,8 @@ public class MyUserDetailsService implements UserDetailsService {
     private List<String> getPrivileges(Collection<Role> roles) {
 
         List<String> privileges = new ArrayList<>();
-        List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
-            collection.addAll(role.getPrivileges());
             privileges.add(role.getName());
-        }
-        for (Privilege item : collection) {
-            privileges.add(item.getName());
         }
         return privileges;
     }

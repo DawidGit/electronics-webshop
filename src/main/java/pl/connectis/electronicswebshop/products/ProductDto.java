@@ -1,42 +1,23 @@
 package pl.connectis.electronicswebshop.products;
 
-import pl.connectis.electronicswebshop.persistence.model.User;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 
-
+@Data
 public class ProductDto {
 
     @NotEmpty(message = "Nie może być puste")
-    public String productName;
+    private String productName;
 
     @NotNull
     @Min(value = 1, message = "Wartość musi być min 1")
-    public int stock;
+    private int stock;
 
-
-    public String addedBy;
-
-    private User user;
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
+    private String addedBy;
 
     public String getAddedBy(Principal principal) {
         this.addedBy = principal.getName();

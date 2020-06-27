@@ -13,8 +13,7 @@ import pl.connectis.electronicswebshop.web.registration.UserDto;
 import java.util.Collections;
 
 @Service
-@Transactional
-public class UserService implements UserServiceInterface {
+public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -26,31 +25,25 @@ public class UserService implements UserServiceInterface {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public void addUser(User user) {
-        userRepository.save(user);
-    }
-
-    public void addCustomerUser(UserDto userDto) {
+    @Transactional
+    public User addUser(UserDto userDto, String role) throws UserAlreadyExistException {
+        if (usernameExist(userDto.getUsername())) {
+            throw new UserAlreadyExistException(
+                    "There is an account with that username: "
+                            + userDto.getUsername());
+        }
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_CUSTOMER")));
-        userRepository.save(user);
+        user.setRoles(Collections.singletonList(roleRepository.findByName(role)));
+        return userRepository.save(user);
     }
 
-    public void addEmployeeUser(UserDto userDto) {
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_EMPLOYEE")));
-        userRepository.save(user);
+    private boolean usernameExist(String username) {
+        return userRepository.findByUsername(username) != null;
     }
 
 }

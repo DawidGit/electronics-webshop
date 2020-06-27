@@ -14,6 +14,10 @@ public class PasswordMatchesValidator
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
         UserDto user = (UserDto) obj;
-        return user.getPassword().equals(user.getMatchingPassword());
+        if (user.getPassword() != null) {
+            return user.getPassword().equals(user.getMatchingPassword());
+        } else {
+            return false;
+        }
     }
 }
