@@ -1,6 +1,7 @@
 package pl.connectis.electronicswebshop.order;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -33,7 +35,6 @@ public class Order {
     public Order() {
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,5 +45,8 @@ public class Order {
                 addedBy.equals(order.addedBy);
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(products, orderStatus, addedBy);
+    }
 }

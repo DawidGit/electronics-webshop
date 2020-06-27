@@ -1,10 +1,8 @@
 package pl.connectis.electronicswebshop.order;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.products.Product;
-import pl.connectis.electronicswebshop.service.OrderServiceInterface;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -12,8 +10,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@Slf4j
-public class OrderService implements OrderServiceInterface {
+public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
@@ -23,7 +20,6 @@ public class OrderService implements OrderServiceInterface {
         this.orderLineRepository = orderLineRepository;
     }
 
-    @Override
     public Order addOrder() {
         return addOrder("Anonymous");
     }
@@ -36,7 +32,6 @@ public class OrderService implements OrderServiceInterface {
         return order;
     }
 
-    @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }

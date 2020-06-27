@@ -1,5 +1,6 @@
 package pl.connectis.electronicswebshop.products;
 
+import lombok.*;
 import pl.connectis.electronicswebshop.order.OrderLine;
 
 import javax.persistence.*;
@@ -7,6 +8,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Product {
 
@@ -14,57 +19,16 @@ public class Product {
     @GeneratedValue
     private Long id;
 
+    @NonNull
     private String productName;
 
-    private int stock;
+    @NonNull
     private String addedBy;
+
+    private int stock;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private final Collection<OrderLine> orders = new HashSet<>();
-
-    public Product() {
-    }
-
-    public Product(String productName, String addedBy) {
-        this.productName = productName;
-        this.addedBy = addedBy;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public String getAddedBy() {
-        return addedBy;
-    }
-
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
-    }
-
-    public Collection<OrderLine> getOrders() {
-        return orders;
-    }
 
     @Override
     public boolean equals(Object o) {

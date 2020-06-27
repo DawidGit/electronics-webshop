@@ -1,12 +1,9 @@
 package pl.connectis.electronicswebshop.orderController;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.connectis.electronicswebshop.InitialDataLoader;
 import pl.connectis.electronicswebshop.order.OrderService;
@@ -15,9 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@Slf4j
 @SpringBootTest
 public class TestOrderController {
 
@@ -50,8 +45,8 @@ public class TestOrderController {
         mockMvc
                 .perform(get("/deleteOrder"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("deleteOrderConfirmationView"))
-                .andExpect(content().string(containsString("Order has been deleted")));
+                .andExpect(view().name("orderLackView"))
+                .andExpect(content().string(containsString("There is not any order")));
 
         mockMvc
                 .perform(get("/addorder"))

@@ -1,6 +1,5 @@
 package pl.connectis.electronicswebshop.addOrder;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +12,6 @@ import pl.connectis.electronicswebshop.order.OrderService;
 import pl.connectis.electronicswebshop.order.OrderStatus;
 
 @ExtendWith(SpringExtension.class)
-@Slf4j
 @SpringBootTest
 public class TestAddOrder {
 

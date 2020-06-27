@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.electronicswebshop.order.Order;
 import pl.connectis.electronicswebshop.order.OrderLine;
-import pl.connectis.electronicswebshop.service.ProductServiceInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ProductService implements ProductServiceInterface {
+public class ProductService {
 
     private final ProductsRepository productsRepository;
 
@@ -20,12 +19,10 @@ public class ProductService implements ProductServiceInterface {
         this.productsRepository = productsRepository;
     }
 
-    @Override
     public Product addProduct(Product product) {
         return productsRepository.save(product);
     }
 
-    @Override
     public Product addProduct(ProductDto productDto) {
 
         Product product = new Product();
