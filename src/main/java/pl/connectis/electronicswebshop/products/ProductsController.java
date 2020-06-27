@@ -58,8 +58,7 @@ public class ProductsController {
             @RequestParam(value = "quantity", required = false) int quantity,
             @RequestParam(value = "id", required = false) Long productID,
             Model model,
-            Principal principal
-    ) {
+            Principal principal) {
         if (quantity < 0) return "error1";
         Product product = productService.getProductByID(productID);
         if (product == null) return "error1";

@@ -21,11 +21,6 @@ public class ProductService implements ProductServiceInterface {
     }
 
     @Override
-    public void addProduct(Product product) {
-        productsRepository.save(product);
-    }
-
-    @Override
     public void addProduct(ProductDto productDto) {
 
         Product product = new Product();
@@ -36,9 +31,7 @@ public class ProductService implements ProductServiceInterface {
     }
 
     public Product getProductByID(Long productID) {
-        if (productsRepository.findById(productID).isPresent())
-            return productsRepository.findById(productID).get();
-        else return null;
+            return productsRepository.findById(productID).orElse(null);
     }
 
     public Iterable<Product> getAllProducts() {

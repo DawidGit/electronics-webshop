@@ -44,13 +44,9 @@ public class Order {
                 addedBy.equals(order.addedBy);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(products, orderStatus, addedBy);
-    }
 
-    @Override
-    public String toString() {
-        return this.orderStatus.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return this.orderStatus.toString();
+//    }
 }

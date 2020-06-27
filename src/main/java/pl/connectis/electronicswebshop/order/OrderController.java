@@ -1,5 +1,6 @@
 package pl.connectis.electronicswebshop.order;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -32,11 +34,13 @@ public class OrderController {
 
     @GetMapping("/deleteOrder")
     public String viewDeleteConfirmation(Principal principal) {
-        orderService.deleteOrder(principal);
-        return "deleteOrderConfirmationView";
+
+        if (orderService.deleteOrder(principal)) {
+            return "deleteOrderConfirmationView";
+        } else {
+            return "orderLackView";
+        }
     }
-
-
     @GetMapping("/addorder")
 
     public String addedOrder(Model model) {
@@ -77,7 +81,7 @@ public class OrderController {
             Principal principal,
             Model model
     ) {
-        Order order = orderService.removeLine(orderID, productID, quantity);
+        Order order = orderService.removeProduct(orderID, productID, quantity);
         return showBasket(model, principal, order);
     }
 
