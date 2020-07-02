@@ -87,11 +87,12 @@ public class ProductsController {
 
     @PostMapping("/addProduct")
     public String addProduct(@ModelAttribute("product") @Valid ProductDto productDto, BindingResult bindingResult,
-                             Model model) {
+                             Model model, Principal principal) {
         if (bindingResult.hasErrors()) {
             System.out.println("BINDING RESULT HAS ERRORS");
             return "addProduct";
         } else {
+            productDto.setAddedBy((principal == null) ? "Anonymous" : principal.getName());
             productService.addProduct(productDto);
             model.addAttribute("allProducts", productsRepository.findAll());
 
