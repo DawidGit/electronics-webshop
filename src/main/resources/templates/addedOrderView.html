@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Create New Product</title>
+</head>
+<body>
+<div align="center">
+    <h1>New Order Created!</h1>
+
+    <a href="/addorder">Create another one</a>
+
+    <form action="#" th:action="@{/addorder}" th:object="${order}"
+          method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Order ID:</td>
+                <td th:text="*{id}"></td>
+            </tr>
+            <tr>
+                <td>Order Date:</td>
+                <td th:text="*{orderDate}"></td>
+
+                <a href="/allorders">Check all orders</a>
+
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
+

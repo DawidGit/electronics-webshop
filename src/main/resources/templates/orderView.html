@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Order View</title>
+    <style th:include="fragments/header :: header-style"></style>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+</div>
+<div align="center">
+    <table border="1" cellpadding="10">
+
+        <td>Your order</td>
+        <tbody>
+
+        <td>Order ID:</td>
+        <td th:text="*{orderNumber.orderID}"></td>
+        <td>Order Date:</td>
+        <td th:text="*{orderNumber.orderDate}"></td>
+        <td>Products:</td>
+        <tr th:each="product : ${orderNumber.products}">
+            <td th:text="${productID}">Product ID</td>
+            <td th:text="${productName}">Product name</td>
+        </tr>
+
+
+        <!--            <td th:text="${orderNumber}">Product ID</td>-->
+
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Order View</title>
+    <style th:include="fragments/header :: header-style"></style>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+</div>
+<div align="center">
+
+
+        <table align="center" border="1" cellpadding="10">
+
+            <td>Your order</td>
+
+            <td>Order ID:</td>
+            <td th:text="${order.id}"></td>
+
+            <td>Created By:</td>
+            <td th:text="${order.addedBy}"></td>
+
+            <td>Status:</td>
+            <td th:text="${order.orderStatus}"></td>
+        </table>
+
+    <div align="center">
+        <h1>Products:</h1>
+    </div>
+
+
+    <table align="center" border="1" cellpadding="10">
+
+        <tbody>
+        <tr th:each="product: ${productsList}">
+            <td th:text="${product.product.id}">Product ID</td>
+            <td th:text="${product.product.productName}">Product name</td>
+            <td th:text="${product.quantity}">Product name</td>
+
+            <form th:action="@{/basket}" method="post">
+
+                <td><input type="number" name="quantity"/></td>
+                <td>
+                    <input type="hidden" th:value="${order.id}" name="orderId"/>
+                    <button type="submit" th:value="${product.product.id}" name="productId">Delete</button>
+                </td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/deleteOrder" type="button">Delete Order</a>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>allOrdersView</title>
+    <style th:include="fragments/header :: header-style"></style>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+</div>
+<div align="center">
+    <h1>Order List</h1>
+    <a href="/addorder">Create New Order</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Products[Qts]</th>
+            <th>Order Status</th>
+        </tr>
+        </thead>
+        <tbody th:each="order : ${listOrders}" th:remove="tag">
+        <tr>
+            <td th:text="${order.id}">Product ID</td>
+            <td th:text="${order.orderDate}">Order Date</td>
+            <td>
+                <th:block th:each="orderline : ${order.products}">
+                    <p th:text="${orderline.product.productName} + '['+${orderline.quantity}+']'">ProductName</p>
+                </th:block>
+            </td>
+            <td th:text="${order.orderStatus}">Order status</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

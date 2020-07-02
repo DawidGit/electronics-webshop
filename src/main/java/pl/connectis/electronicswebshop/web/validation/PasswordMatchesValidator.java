@@ -1,0 +1,23 @@
+package pl.connectis.electronicswebshop.web.validation;
+
+import pl.connectis.electronicswebshop.web.registration.UserDto;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class PasswordMatchesValidator
+        implements ConstraintValidator<PasswordMatches, Object> {
+
+    @Override
+    public void initialize(PasswordMatches constraintAnnotation) {
+    }
+    @Override
+    public boolean isValid(Object obj, ConstraintValidatorContext context){
+        UserDto user = (UserDto) obj;
+        if (user.getPassword() != null) {
+            return user.getPassword().equals(user.getMatchingPassword());
+        } else {
+            return false;
+        }
+    }
+}
