@@ -2,11 +2,6 @@ package pl.connectis.electronicswebshop.products;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.connectis.electronicswebshop.order.Order;
-import pl.connectis.electronicswebshop.order.OrderLine;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -39,19 +34,6 @@ public class ProductService {
 
     public Iterable<Product> getAllProducts() {
         return productsRepository.findAll();
-    }
-
-    public List<Product> getAllProductsByOrderId(Order order) {
-        List<Product> selectedList = new ArrayList<>();
-        for (Product product : productsRepository.findAll()) {
-            for (OrderLine orderLine : product.getOrders()
-            ) {
-                if (orderLine.getOrder().getId().equals(order.getId()))
-                    selectedList.add(product);
-            }
-        }
-        return selectedList;
-
     }
 
 
