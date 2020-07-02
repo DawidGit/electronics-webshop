@@ -1,6 +1,8 @@
 package pl.connectis.electronicswebshop.order;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,16 +10,18 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
 
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "orderDate")
@@ -32,21 +36,4 @@ public class Order {
 
     private String addedBy;
 
-    public Order() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(products, order.products) &&
-                orderStatus == order.orderStatus &&
-                addedBy.equals(order.addedBy);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(products, orderStatus, addedBy);
-    }
 }
